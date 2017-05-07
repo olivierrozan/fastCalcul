@@ -3,6 +3,7 @@ package home.fastcalcul;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
+
+import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,9 +32,10 @@ import static android.R.id.undo;
 public class MainActivity extends AppCompatActivity {
 
     private TextView TMarkerNumber, TrandomNumber, TGoodAnswers, TBadAnswers, TCountdown;
-    private Integer markerNumber, randomNumber, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer, countdown;
+    private Integer markerNumber, randomNumber, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
     private Button[] listButtons;
     private Button resetButton;
+    private boolean play;
 
     View.OnClickListener mOnClickListener;
 
@@ -64,14 +69,25 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         numberOfGoodAnswers = 0;
         numberOfBadAnswers = 0;
-        countdown = 20;
+        play = true;
+
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                TCountdown.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                TCountdown.setText("done!");
+                play = false;
+            }
+        }.start();
 
         Random r = new Random();
         markerNumber = r.nextInt(1000);
 
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
         TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
-        TCountdown.setText(String.valueOf(countdown));
         TMarkerNumber.setText(String.valueOf(markerNumber));
 
         newCalcul();
@@ -95,10 +111,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick (View view) {
+            /*MaterialRippleLayout.on(view)
+                    .rippleColor(Color.BLACK)
+                    .create();*/
+
             Button b = (Button)view;
             String buttonText = b.getText().toString();
 
-            if (countdown > 1) {
+            if (play) {
                 if (Integer.valueOf(((Button) view).getText().toString()) + randomNumber == markerNumber) {
                     numberOfGoodAnswers++;
                     TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
@@ -111,14 +131,9 @@ public class MainActivity extends AppCompatActivity {
                         .show();*/
                 }
 
-                countdown--;
-                TCountdown.setText(String.valueOf(countdown));
                 newCalcul();
 
-            } else {
-                TCountdown.setText("STOP");
             }
-
         }
     };
 
@@ -128,9 +143,8 @@ public class MainActivity extends AppCompatActivity {
         randomNumber = r.nextInt(markerNumber - 1) + 1;
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
-        TMarkerNumber.setText("Marker " + markerNumber.toString());
+        TMarkerNumber.setText("Maximum " + markerNumber.toString());
         TrandomNumber.setText(String.valueOf(randomNumber));
-        TCountdown.setText(String.valueOf(countdown));
 
         int nb = Integer.valueOf(markerNumber) - Integer.valueOf(randomNumber);
 
