@@ -1,33 +1,20 @@
 package home.fastcalcul;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Debug;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
-import java.util.Set;
-
-import static android.R.id.undo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,19 +53,37 @@ public class MainActivity extends AppCompatActivity {
         resetButton.setOnClickListener(resetListener);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void init() {
         numberOfGoodAnswers = 0;
         numberOfBadAnswers = 0;
         play = true;
 
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                TCountdown.setText("seconds remaining: " + millisUntilFinished / 1000);
+                TCountdown.setText("Timer: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                TCountdown.setText("done!");
+                TCountdown.setText("0");
                 play = false;
             }
         }.start();
@@ -143,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         randomNumber = r.nextInt(markerNumber - 1) + 1;
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
-        TMarkerNumber.setText("Maximum " + markerNumber.toString());
+        TMarkerNumber.setText(markerNumber.toString());
         TrandomNumber.setText(String.valueOf(randomNumber));
 
         int nb = Integer.valueOf(markerNumber) - Integer.valueOf(randomNumber);

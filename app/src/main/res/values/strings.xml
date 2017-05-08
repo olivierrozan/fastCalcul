@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">FastCalcul</string>
+    <string name="app_name">Lightning Mental Arithmetic</string>
     <string name="marker">Marker</string>
     <string name="goodpoints">Points</string>
     <string name="badpoints">Errors</string>
     <string name="reset">Reset</string>
+    <string name="mark">"?"</string>
+    <string name="plus">"+"</string>
+    <string name="equal">"="</string>
 </resources>
