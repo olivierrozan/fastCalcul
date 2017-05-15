@@ -1,5 +1,6 @@
 package home.fastcalcul;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,22 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                /*Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);*/
-                new AlertDialog.Builder(this)
-                        //.setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Lightning Mental Arithmetic")
-                        .setMessage("All progression will be lost. Are you sure you want to exit ?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                dialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -194,19 +180,39 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                //.setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Lightning Mental Arithmetic")
-                .setMessage("All progression will be lost. Are you sure you want to exit ?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
+        dialog();
+    }
 
-                })
-                .setNegativeButton("No", null)
-                .show();
+    private void dialog() {
+
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog);
+        dialog.setTitle("Menu Option");
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.textDialog);
+        text.setText("All progression will be lost. Are you sure you want to exit ?");
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button dialogButton2 = (Button) dialog.findViewById(R.id.dialogButtonNO);
+
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        // if button is clicked, close the custom dialog
+        dialogButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
