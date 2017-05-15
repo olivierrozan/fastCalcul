@@ -1,9 +1,11 @@
 package home.fastcalcul;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,9 +65,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                /*Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);*/
+                new AlertDialog.Builder(this)
+                        //.setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Lightning Mental Arithmetic")
+                        .setMessage("All progression will be lost. Are you sure you want to exit ?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
 
-                startActivity(intent);
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -175,5 +190,23 @@ public class MainActivity extends AppCompatActivity {
             listButtons[0].setText(String.valueOf(listNumbers.get(0)));
             listButtons[1].setText(String.valueOf(listNumbers.get(1)));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Lightning Mental Arithmetic")
+                .setMessage("All progression will be lost. Are you sure you want to exit ?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }

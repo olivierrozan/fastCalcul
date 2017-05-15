@@ -7,4 +7,6 @@
     <string name="mark">"?"</string>
     <string name="plus">"+"</string>
     <string name="equal">"="</string>
+    <string name="start">Start</string>
+    <string name="quit">Exit</string>
 </resources>
