@@ -5,19 +5,14 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
-import static org.mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 
 /**

@@ -12,40 +12,50 @@
     tools:context="home.fastcalcul.MainActivity"
     android:background="@android:color/holo_blue_light">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="198dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@mipmap/background" />
+
+    <Button
+        android:id="@+id/start"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="260dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="@string/start"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/quit"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
-        android:layout_marginTop="150dp"
-        android:orientation="vertical">
-
-
-        <Button
-            android:id="@+id/start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:text="@string/start"
-            android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/quit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_dark"
-            android:text="@string/quit"
-            android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:layout_marginTop="320dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="@string/quit"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

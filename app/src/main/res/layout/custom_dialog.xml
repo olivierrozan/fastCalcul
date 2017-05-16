@@ -41,7 +41,6 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="50dp"
                 android:layout_weight="0.1"
-                android:allowUndo="false"
                 android:background="@android:color/holo_blue_dark"
                 android:text="Yes, quit"
                 android:textColor="@android:color/background_light" />

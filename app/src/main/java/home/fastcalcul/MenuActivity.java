@@ -24,6 +24,7 @@ public class MenuActivity extends AppCompatActivity {
         exitButton.setOnClickListener(exitListener);
     }
 
+
     /**
      * startListener
      * Starts the appli
