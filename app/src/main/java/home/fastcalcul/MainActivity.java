@@ -16,20 +16,20 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView TMarkerNumber, TrandomNumber, TGoodAnswers, TBadAnswers, TCountdown;
-    private Integer markerNumber, randomNumber, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
+    private TextView TSum, TrandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
+    private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
     private Button[] listButtons;
-    private Button resetButton;
     private FloatingActionButton fab;
     private boolean play;
+    private Integer level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TMarkerNumber = (TextView) findViewById(R.id.marker);
-        TrandomNumber = (TextView) findViewById(R.id.randomNumber);
+        TSum = (TextView) findViewById(R.id.sum);
+        TrandomOperand = (TextView) findViewById(R.id.randomOperand);
         TGoodAnswers = (TextView) findViewById(R.id.goodPoints);
         TBadAnswers = (TextView) findViewById(R.id.badPoints);
         TCountdown = (TextView) findViewById(R.id.countdown);
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         listButtons[0] = (Button) findViewById(R.id.choice1);
         listButtons[1] = (Button) findViewById(R.id.choice2);
         listButtons[2] = (Button) findViewById(R.id.choice3);
-        resetButton = (Button) findViewById(R.id.reset);
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
         init();
@@ -48,31 +47,15 @@ public class MainActivity extends AppCompatActivity {
             b.setOnClickListener(clickListener);
         }
 
-        resetButton.setOnClickListener(resetListener);
         fab.setOnClickListener(fabListener);
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_edit:
-                dialog();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
 
     private void init() {
         numberOfGoodAnswers = 0;
         numberOfBadAnswers = 0;
         play = true;
+        level = 1;
+        sum = 10;
 
         new CountDownTimer(60000, 1000) {
 
@@ -86,84 +69,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        Random r = new Random();
-        markerNumber = r.nextInt(1000);
-
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
         TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
-        TMarkerNumber.setText(String.valueOf(markerNumber));
+        TSum.setText(String.valueOf(sum));
 
         newCalcul();
     }
 
     /**
-     * fabListener
+     * newCalcul
+     * Generates random numbers for buttons, marker and randomOperand
      */
-    View.OnClickListener fabListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            dialog();
-        }
-    };
-
-    /**
-     * resetListener
-     */
-    View.OnClickListener resetListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            init();
-        }
-    };
-
-    /**
-     * clickListener
-     *
-     */
-    View.OnClickListener clickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick (View view) {
-            /*MaterialRippleLayout.on(view)
-                    .rippleColor(Color.BLACK)
-                    .create();*/
-
-            Button b = (Button)view;
-            String buttonText = b.getText().toString();
-
-            if (play) {
-                if (Integer.valueOf(((Button) view).getText().toString()) + randomNumber == markerNumber) {
-                    numberOfGoodAnswers++;
-                    TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
-                /*Snackbar.make(findViewById(android.R.id.content), buttonText + ": Correct", Snackbar.LENGTH_LONG)
-                        .show();*/
-                } else {
-                    numberOfBadAnswers++;
-                    TBadAnswers.setText("Errors " + numberOfBadAnswers.toString());
-                /*Snackbar.make(findViewById(android.R.id.content), buttonText + ": Loser", Snackbar.LENGTH_LONG)
-                        .show();*/
-                }
-
-                newCalcul();
-
-            }
-        }
-    };
-
     public void newCalcul() {
         Random r = new Random();
 
-        randomNumber = r.nextInt(markerNumber - 1) + 1;
+        randomOperand = r.nextInt(sum - 1) + 1;
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
-        TMarkerNumber.setText(markerNumber.toString());
-        TrandomNumber.setText(String.valueOf(randomNumber));
+        TSum.setText(sum.toString());
+        TrandomOperand.setText(String.valueOf(randomOperand));
 
-        int nb = Integer.valueOf(markerNumber) - Integer.valueOf(randomNumber);
+        int nb = Integer.valueOf(sum) - Integer.valueOf(randomOperand);
 
         List<Integer> listNumbers = new ArrayList<Integer>();
 
-        for (int i = 1; i < markerNumber - 1; i++) {
+        for (int i = 1; i < sum - 1; i++) {
             if (i != nb) {
                 listNumbers.add(i);
             }
@@ -184,6 +114,71 @@ public class MainActivity extends AppCompatActivity {
             listButtons[1].setText(String.valueOf(listNumbers.get(1)));
         }
     }
+
+    /**
+     * fabListener
+     */
+    View.OnClickListener fabListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dialog();
+        }
+    };
+
+    /**
+     * clickListener
+     *
+     */
+    View.OnClickListener clickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick (View view) {
+
+            Random r = new Random();
+            Button b = (Button)view;
+
+            if (play) {
+                if (Integer.valueOf(((Button) view).getText().toString()) + randomOperand == sum) {
+                    numberOfGoodAnswers++;
+                    TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
+                } else {
+                    numberOfBadAnswers++;
+                    TBadAnswers.setText("Errors " + numberOfBadAnswers.toString());
+                }
+
+                if (numberOfGoodAnswers >= 5 && numberOfGoodAnswers < 9) {
+                    level = 2;
+                } else if(numberOfGoodAnswers >= 10 && numberOfGoodAnswers < 14) {
+                    level = 3;
+                } else if(numberOfGoodAnswers >= 15) {
+                    level = 4;
+                }
+
+                switch (level) {
+                    case 1:
+                        sum = 10;
+                        break;
+                    case 2:
+                        sum = 100;
+                        break;
+                    case 3:
+                        sum = r.nextInt(100 - 10) + 10;
+                        break;
+                    case 4:
+                        sum = r.nextInt(1000 - 100) + 100;
+                        break;
+                }
+
+                randomOperand = r.nextInt(sum - 1) + 1;
+                buttonIndexWithGoodAnswer = r.nextInt(3);
+
+                TSum.setText(sum.toString());
+                TrandomOperand.setText(String.valueOf(randomOperand));
+
+                newCalcul();
+            }
+        }
+    };
 
     @Override
     public void onBackPressed() {

@@ -9,4 +9,7 @@
     <string name="equal">"="</string>
     <string name="start">Start</string>
     <string name="quit">Exit</string>
+    <string name="dialog_title">Are you sure you want to quit?</string>
+    <string name="dialog_yes">Yes, quit</string>
+    <string name="dialog_no">No, continue</string>
 </resources>
