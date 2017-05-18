@@ -60,15 +60,11 @@ public class MenuActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.custom_dialog);
         dialog.setTitle("Menu Option");
 
-        // set the custom dialog components - text, image and button
-        TextView text = (TextView) dialog.findViewById(R.id.textDialog);
-        text.setText("Are you sure you want to quit?");
-
-        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButton2 = (Button) dialog.findViewById(R.id.dialogButtonNO);
+        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
 
         // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener(new View.OnClickListener() {
+        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -76,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         // if button is clicked, close the custom dialog
-        dialogButton2.setOnClickListener(new View.OnClickListener() {
+        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

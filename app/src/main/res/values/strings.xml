@@ -12,4 +12,7 @@
     <string name="dialog_title">Are you sure you want to quit?</string>
     <string name="dialog_yes">Yes, quit</string>
     <string name="dialog_no">No, continue</string>
+    <string name="begin_dialog_title">Do you want to start?</string>
+    <string name="begin_dialog_yes">Yes, let"'"s rock</string>
+    <string name="begin_dialog_no">No, back to menu</string>
 </resources>

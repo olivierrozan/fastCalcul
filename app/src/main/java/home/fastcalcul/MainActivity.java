@@ -1,6 +1,7 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -41,13 +42,15 @@ public class MainActivity extends AppCompatActivity {
         listButtons[2] = (Button) findViewById(R.id.choice3);
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
-        init();
+
 
         for (Button b: listButtons) {
             b.setOnClickListener(clickListener);
         }
 
         fab.setOnClickListener(fabListener);
+
+        beginDialog();
     }
 
     private void init() {
@@ -57,15 +60,21 @@ public class MainActivity extends AppCompatActivity {
         level = 1;
         sum = 10;
 
-        new CountDownTimer(60000, 1000) {
+        new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 TCountdown.setText("Timer: " + millisUntilFinished / 1000);
+
+                if (millisUntilFinished <= 5000) {
+                    TCountdown.setTextColor(Color.RED);
+                }
+
             }
 
             public void onFinish() {
                 TCountdown.setText("0");
                 play = false;
+                finishDialog();
             }
         }.start();
 
@@ -212,6 +221,68 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void beginDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.begin_dialog);
+        dialog.setTitle("Start");
+        dialog.setCancelable(false);
+
+        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
+
+        // if button is clicked, close the custom dialog
+        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                init();
+            }
+        });
+
+        // if button is clicked, close the custom dialog
+        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void finishDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.finish_dialog);
+        dialog.setTitle("Game Over");
+        dialog.setCancelable(false);
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.textDialog);
+        text.setText("Restart?");
+
+        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
+
+        // if button is clicked, close the custom dialog
+        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                init();
+            }
+        });
+
+        // if button is clicked, close the custom dialog
+        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
