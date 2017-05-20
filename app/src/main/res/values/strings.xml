@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Lightning Mental Arithmetic</string>
     <string name="marker">Marker</string>
-    <string name="goodpoints">Points</string>
+    <string name="goodpoints">Correct</string>
     <string name="badpoints">Errors</string>
-    <string name="reset">Reset</string>
     <string name="mark">"?"</string>
     <string name="plus">"+"</string>
     <string name="equal">"="</string>
@@ -15,4 +14,5 @@
     <string name="begin_dialog_title">Do you want to start?</string>
     <string name="begin_dialog_yes">Yes, let"'"s rock</string>
     <string name="begin_dialog_no">No, back to menu</string>
+    <string name="timer_title">Timer </string>
 </resources>

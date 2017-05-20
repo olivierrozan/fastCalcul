@@ -17,12 +17,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView TSum, TrandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
+    private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
     private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
     private Button[] listButtons;
     private FloatingActionButton fab;
     private boolean play;
     private Integer level;
+    private long timer;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TSum = (TextView) findViewById(R.id.sum);
-        TrandomOperand = (TextView) findViewById(R.id.randomOperand);
+        TRandomOperand = (TextView) findViewById(R.id.randomOperand);
         TGoodAnswers = (TextView) findViewById(R.id.goodPoints);
         TBadAnswers = (TextView) findViewById(R.id.badPoints);
         TCountdown = (TextView) findViewById(R.id.countdown);
@@ -41,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         listButtons[1] = (Button) findViewById(R.id.choice2);
         listButtons[2] = (Button) findViewById(R.id.choice3);
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-
-
 
         for (Button b: listButtons) {
             b.setOnClickListener(clickListener);
@@ -59,13 +59,27 @@ public class MainActivity extends AppCompatActivity {
         play = true;
         level = 1;
         sum = 10;
+        timer = 30000;
 
-        new CountDownTimer(30000, 1000) {
+        initCountDownTimer();
+
+        TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
+        TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
+        TSum.setText(String.valueOf(sum));
+
+        newCalcul();
+    }
+
+    private void initCountDownTimer() {
+        countDownTimer = new CountDownTimer(timer, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                TCountdown.setText("Timer: " + millisUntilFinished / 1000);
+                String time = String.valueOf(millisUntilFinished / 1000);
+                TCountdown.setText(time);
+                TCountdown.setTextColor(Color.WHITE);
+                timer = millisUntilFinished;
 
-                if (millisUntilFinished <= 5000) {
+                if (millisUntilFinished <= 6000) {
                     TCountdown.setTextColor(Color.RED);
                 }
 
@@ -77,12 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 finishDialog();
             }
         }.start();
-
-        TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
-        TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
-        TSum.setText(String.valueOf(sum));
-
-        newCalcul();
     }
 
     /**
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
         TSum.setText(sum.toString());
-        TrandomOperand.setText(String.valueOf(randomOperand));
+        TRandomOperand.setText(String.valueOf(randomOperand));
 
         int nb = Integer.valueOf(sum) - Integer.valueOf(randomOperand);
 
@@ -147,19 +155,33 @@ public class MainActivity extends AppCompatActivity {
             Button b = (Button)view;
 
             if (play) {
+                // If the good answer is chosen
                 if (Integer.valueOf(((Button) view).getText().toString()) + randomOperand == sum) {
                     numberOfGoodAnswers++;
+                    // Adds 10 seconds to timer every 10 good answers
+                    if (numberOfGoodAnswers % 10 == 0) {
+                        countDownTimer.cancel();
+                        timer += 10000;
+                        initCountDownTimer();
+                    }
+
                     TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
                 } else {
                     numberOfBadAnswers++;
+
+                    countDownTimer.cancel();
+                    // Removes 1 second to timer for each wrong answer
+                    timer -= 1000;
+                    initCountDownTimer();
+
                     TBadAnswers.setText("Errors " + numberOfBadAnswers.toString());
                 }
 
-                if (numberOfGoodAnswers >= 5 && numberOfGoodAnswers < 9) {
+                if (numberOfGoodAnswers == 10) {
                     level = 2;
-                } else if(numberOfGoodAnswers >= 10 && numberOfGoodAnswers < 14) {
+                } else if (numberOfGoodAnswers == 20) {
                     level = 3;
-                } else if(numberOfGoodAnswers >= 15) {
+                } else if (numberOfGoodAnswers == 30) {
                     level = 4;
                 }
 
@@ -182,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 buttonIndexWithGoodAnswer = r.nextInt(3);
 
                 TSum.setText(sum.toString());
-                TrandomOperand.setText(String.valueOf(randomOperand));
+                TRandomOperand.setText(String.valueOf(randomOperand));
 
                 newCalcul();
             }
