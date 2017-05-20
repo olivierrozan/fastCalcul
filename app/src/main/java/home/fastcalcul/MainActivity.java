@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
+    private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown, TFinish_dialog_good, TFinish_dialog_errors;
     private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
     private Button[] listButtons;
     private FloatingActionButton fab;
@@ -281,12 +281,18 @@ public class MainActivity extends AppCompatActivity {
     private void finishDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.finish_dialog);
-        dialog.setTitle("Game Over");
+        dialog.setTitle("Time passed");
         dialog.setCancelable(false);
 
         // set the custom dialog components - text, image and button
-        TextView text = (TextView) dialog.findViewById(R.id.textDialog);
-        text.setText("Restart?");
+        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
+        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
+        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
+        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
+        good.setText("Good answers");
+        goodScore.setText(String.valueOf(numberOfGoodAnswers));
+        bad.setText("Errors");
+        badScore.setText(String.valueOf(numberOfBadAnswers));
 
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);

@@ -11,8 +11,11 @@
     <string name="dialog_title">Are you sure you want to quit?</string>
     <string name="dialog_yes">Yes, quit</string>
     <string name="dialog_no">No, continue</string>
-    <string name="begin_dialog_title">Do you want to start?</string>
+    <string name="begin_dialog_title">Start?</string>
     <string name="begin_dialog_yes">Yes, let"'"s rock</string>
     <string name="begin_dialog_no">No, back to menu</string>
-    <string name="timer_title">Timer </string>
+    <string name="finish_dialog_yes">Restart</string>
+    <string name="finish_dialog_no">Back to menu</string>
+    <string name="total_good_title">Good answers</string>
+    <string name="total_bad_title">Errors</string>
 </resources>
