@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private boolean play;
     private Integer level;
-    private long timer;
+    private long timer, timeWhenPaused;
     private CountDownTimer countDownTimer;
 
     @Override
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         level = 1;
         sum = 10;
         timer = 30000;
+        timeWhenPaused = 0;
 
         initCountDownTimer();
 
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 if (millisUntilFinished <= 6000) {
                     TCountdown.setTextColor(Color.RED);
                 }
-
             }
 
             public void onFinish() {
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     // Adds 10 seconds to timer every 10 good answers
                     if (numberOfGoodAnswers % 10 == 0) {
                         countDownTimer.cancel();
-                        timer += 10000;
+                        timer += 30000;
                         initCountDownTimer();
                     }
 
@@ -218,6 +218,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void dialog() {
 
+        timeWhenPaused = timer;
+        countDownTimer.cancel();
+
         // custom dialog
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog);
@@ -243,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                timer = timeWhenPaused;
+                initCountDownTimer();
             }
         });
 
