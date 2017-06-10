@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button startButton, exitButton;
+    private Button startButton, tutoButton, exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +18,13 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         startButton = (Button) findViewById(R.id.start);
+        tutoButton = (Button) findViewById(R.id.tuto);
         exitButton = (Button) findViewById(R.id.quit);
 
         startButton.setOnClickListener(startListener);
+        tutoButton.setOnClickListener(tutoListener);
         exitButton.setOnClickListener(exitListener);
     }
-
 
     /**
      * startListener
@@ -33,6 +34,18 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    /**
+     * startListener
+     * Starts the appli
+     */
+    View.OnClickListener tutoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), TutoActivity.class);
             startActivity(intent);
         }
     };

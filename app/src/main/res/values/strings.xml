@@ -19,4 +19,7 @@
     <string name="finish_dialog_no">Back to menu</string>
     <string name="total_good_title">Good answers</string>
     <string name="total_bad_title">Errors</string>
+    <string name="title_activity_tuto">Tutorial</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

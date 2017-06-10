@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer level;
     private long timer, timeWhenPaused;
     private CountDownTimer countDownTimer;
+    private Animation goodAnim, badAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
         TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
         TSum.setText(String.valueOf(sum));
+
+        goodAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        badAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
 
         newCalcul();
     }
@@ -158,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
                 // If the good answer is chosen
                 if (Integer.valueOf(((Button) view).getText().toString()) + randomOperand == sum) {
                     numberOfGoodAnswers++;
+
+                    TGoodAnswers.setVisibility(view.VISIBLE);
+                    TGoodAnswers.startAnimation(goodAnim);
+
                     // Adds 10 seconds to timer every 10 good answers
                     if (numberOfGoodAnswers % 10 == 0) {
                         countDownTimer.cancel();
@@ -168,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
                     TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
                 } else {
                     numberOfBadAnswers++;
+
+                    TBadAnswers.setVisibility(view.VISIBLE);
+                    TBadAnswers.startAnimation(badAnim);
 
                     countDownTimer.cancel();
                     // Removes 1 second to timer for each wrong answer
