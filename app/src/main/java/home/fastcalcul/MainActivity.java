@@ -188,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
                     initCountDownTimer();
 
                     TBadAnswers.setText("Errors " + numberOfBadAnswers.toString());
+
+                    if (numberOfBadAnswers == 10) {
+                        timeWhenPaused = timer;
+                        countDownTimer.cancel();
+                        loseDialog();
+                    }
                 }
 
                 if (numberOfGoodAnswers == 10) {
@@ -270,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     private void beginDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.begin_dialog);
-        dialog.setTitle("Start");
+        //dialog.setTitle("Start");
         dialog.setCancelable(false);
 
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
@@ -300,6 +306,45 @@ public class MainActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.finish_dialog);
         dialog.setTitle("Time passed");
+        dialog.setCancelable(false);
+
+        // set the custom dialog components - text, image and button
+        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
+        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
+        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
+        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
+        good.setText("Good answers");
+        goodScore.setText(String.valueOf(numberOfGoodAnswers));
+        bad.setText("Errors");
+        badScore.setText(String.valueOf(numberOfBadAnswers));
+
+        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
+
+        // if button is clicked, close the custom dialog
+        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                init();
+            }
+        });
+
+        // if button is clicked, close the custom dialog
+        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void loseDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.finish_dialog);
+        dialog.setTitle("Game Over");
         dialog.setCancelable(false);
 
         // set the custom dialog components - text, image and button

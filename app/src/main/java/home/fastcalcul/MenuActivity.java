@@ -1,7 +1,9 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button startButton, tutoButton, exitButton;
+    private Button startButton, exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +20,12 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         startButton = (Button) findViewById(R.id.start);
-        tutoButton = (Button) findViewById(R.id.tuto);
         exitButton = (Button) findViewById(R.id.quit);
 
         startButton.setOnClickListener(startListener);
-        tutoButton.setOnClickListener(tutoListener);
         exitButton.setOnClickListener(exitListener);
+
+        showLocationDialog();
     }
 
     /**
@@ -34,18 +36,6 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
-    };
-
-    /**
-     * startListener
-     * Starts the appli
-     */
-    View.OnClickListener tutoListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(getApplicationContext(), TutoActivity.class);
             startActivity(intent);
         }
     };
@@ -63,7 +53,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        dialog();
+        //dialog();
+        showLocationDialog();
     }
 
     private void dialog() {
@@ -92,6 +83,35 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        dialog.show();
+    }
+
+    private void showLocationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this, R.style.MyDialogTheme);
+        builder.setTitle(getString(R.string.dialog_title));
+        //builder.setMessage(getString(R.string.dialog_title));
+        builder.setCancelable(false);
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // positive button logic
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
         dialog.show();
     }
 }
