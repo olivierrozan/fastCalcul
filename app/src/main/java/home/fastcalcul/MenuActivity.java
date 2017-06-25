@@ -24,8 +24,6 @@ public class MenuActivity extends AppCompatActivity {
 
         startButton.setOnClickListener(startListener);
         exitButton.setOnClickListener(exitListener);
-
-        showLocationDialog();
     }
 
     /**
@@ -53,8 +51,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //dialog();
-        showLocationDialog();
+        dialog();
+        //showLocationDialog();
     }
 
     private void dialog() {

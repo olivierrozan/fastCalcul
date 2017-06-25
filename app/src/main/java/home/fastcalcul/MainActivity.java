@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -19,10 +21,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown, TFinish_dialog_good, TFinish_dialog_errors;
-    private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer;
+    private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
+    private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer, totalDialog;
     private Button[] listButtons;
-    private FloatingActionButton fab;
     private boolean play;
     private Integer level;
     private long timer, timeWhenPaused;
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         listButtons[0] = (Button) findViewById(R.id.choice1);
         listButtons[1] = (Button) findViewById(R.id.choice2);
         listButtons[2] = (Button) findViewById(R.id.choice3);
-        fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
-        for (Button b: listButtons) {
+        for (Button b : listButtons) {
             b.setOnClickListener(clickListener);
         }
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         sum = 10;
         timer = 30000;
         timeWhenPaused = 0;
+        totalDialog = 0;
 
         initCountDownTimer();
 
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 TCountdown.setText("0");
                 play = false;
-                finishDialog();
+                finishDialog("Time passed");
             }
         }.start();
     }
@@ -103,18 +105,18 @@ public class MainActivity extends AppCompatActivity {
      * newCalcul
      * Generates random numbers for buttons, marker and randomOperand
      */
-    public void newCalcul() {
+    private void newCalcul() {
         Random r = new Random();
 
         randomOperand = r.nextInt(sum - 1) + 1;
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
-        TSum.setText(sum.toString());
+        TSum.setText(String.valueOf(sum));
         TRandomOperand.setText(String.valueOf(randomOperand));
 
-        int nb = Integer.valueOf(sum) - Integer.valueOf(randomOperand);
+        int nb = sum - randomOperand;
 
-        List<Integer> listNumbers = new ArrayList<Integer>();
+        List<Integer> listNumbers = new ArrayList<>();
 
         for (int i = 1; i < sum - 1; i++) {
             if (i != nb) {
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * fabListener
      */
-    View.OnClickListener fabListener = new View.OnClickListener() {
+    private final View.OnClickListener fabListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             dialog();
@@ -150,49 +152,47 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * clickListener
-     *
      */
-    View.OnClickListener clickListener = new View.OnClickListener() {
+    private final View.OnClickListener clickListener = new View.OnClickListener() {
 
         @Override
-        public void onClick (View view) {
+        public void onClick(View view) {
 
             Random r = new Random();
-            Button b = (Button)view;
 
             if (play) {
                 // If the good answer is chosen
                 if (Integer.valueOf(((Button) view).getText().toString()) + randomOperand == sum) {
                     numberOfGoodAnswers++;
 
-                    TGoodAnswers.setVisibility(view.VISIBLE);
+                    TGoodAnswers.setVisibility(View.VISIBLE);
                     TGoodAnswers.startAnimation(goodAnim);
 
                     // Adds 10 seconds to timer every 10 good answers
-                    if (numberOfGoodAnswers % 10 == 0) {
-                        countDownTimer.cancel();
-                        timer += 30000;
-                        initCountDownTimer();
-                    }
+//                    if (numberOfGoodAnswers % 10 == 0) {
+//                        countDownTimer.cancel();
+//                        timer += 30000;
+//                        initCountDownTimer();
+//                    }
 
-                    TGoodAnswers.setText("Correct " + numberOfGoodAnswers.toString());
+                    TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
                 } else {
                     numberOfBadAnswers++;
 
-                    TBadAnswers.setVisibility(view.VISIBLE);
+                    TBadAnswers.setVisibility(View.VISIBLE);
                     TBadAnswers.startAnimation(badAnim);
 
-                    countDownTimer.cancel();
-                    // Removes 1 second to timer for each wrong answer
-                    timer -= 1000;
-                    initCountDownTimer();
+//                    countDownTimer.cancel();
+//                    // Removes 1 second to timer for each wrong answer
+//                    timer -= 1000;
+//                    initCountDownTimer();
 
-                    TBadAnswers.setText("Errors " + numberOfBadAnswers.toString());
+                    TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
 
                     if (numberOfBadAnswers == 10) {
                         timeWhenPaused = timer;
                         countDownTimer.cancel();
-                        loseDialog();
+                        finishDialog("Too much wrong answers !!!");
                     }
                 }
 
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 randomOperand = r.nextInt(sum - 1) + 1;
                 buttonIndexWithGoodAnswer = r.nextInt(3);
 
-                TSum.setText(sum.toString());
+                TSum.setText(String.valueOf(sum));
                 TRandomOperand.setText(String.valueOf(randomOperand));
 
                 newCalcul();
@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog);
         dialog.setTitle("Menu Option");
+        dialog.setCancelable(false);
 
         // set the custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.textDialog);
@@ -302,10 +303,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void finishDialog() {
+    private void finishDialog(String text) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.finish_dialog);
-        dialog.setTitle("Time passed");
+        dialog.setTitle(text);
         dialog.setCancelable(false);
 
         // set the custom dialog components - text, image and button
@@ -313,6 +314,8 @@ public class MainActivity extends AppCompatActivity {
         TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
         TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
         TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
+        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
+
         good.setText("Good answers");
         goodScore.setText(String.valueOf(numberOfGoodAnswers));
         bad.setText("Errors");
@@ -321,44 +324,20 @@ public class MainActivity extends AppCompatActivity {
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
 
-        // if button is clicked, close the custom dialog
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                init();
-            }
-        });
+        if (numberOfBadAnswers == 10) {
+            totalDialog = 0;
 
-        // if button is clicked, close the custom dialog
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+            Window window = dialog.getWindow();
+            WindowManager.LayoutParams wlp = window.getAttributes();
 
-        dialog.show();
-    }
+            wlp.y = -100;
+            wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            window.setAttributes(wlp);
+        } else {
+            totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
+        }
 
-    private void loseDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.finish_dialog);
-        dialog.setTitle("Game Over");
-        dialog.setCancelable(false);
-
-        // set the custom dialog components - text, image and button
-        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
-        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
-        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
-        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
-        good.setText("Good answers");
-        goodScore.setText(String.valueOf(numberOfGoodAnswers));
-        bad.setText("Errors");
-        badScore.setText(String.valueOf(numberOfBadAnswers));
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
+        TotalScore.setText(String.valueOf(totalDialog));
 
         // if button is clicked, close the custom dialog
         dialogButtonOK.setOnClickListener(new View.OnClickListener() {

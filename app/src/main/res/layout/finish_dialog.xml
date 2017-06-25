@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="10"
+                android:text="0"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -54,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="10"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -62,9 +62,51 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@android:color/black"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout2">
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_alignStart="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/total"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp"
+            android:layout_weight="0.07" />
+
+        <TextView
+            android:id="@+id/totalDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.84"
+            android:gravity="end"
+            android:text="0"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
         android:orientation="horizontal">
 
         <Button
