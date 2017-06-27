@@ -6,33 +6,50 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button startButton, exitButton;
+    private Button startAButton, startBButton, exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        startButton = (Button) findViewById(R.id.start);
+
+        startAButton = (Button) findViewById(R.id.level1);
+        startBButton = (Button) findViewById(R.id.level2);
         exitButton = (Button) findViewById(R.id.quit);
 
-        startButton.setOnClickListener(startListener);
+        startAButton.setOnClickListener(startAListener);
+        startBButton.setOnClickListener(startBListener);
         exitButton.setOnClickListener(exitListener);
     }
 
     /**
-     * startListener
-     * Starts the appli
+     * startAListener
+     * Starts the appli Mode A (Choose 1 level)
      */
-    View.OnClickListener startListener = new View.OnClickListener() {
+    View.OnClickListener startAListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            finish();
+            Intent intent = new Intent(getApplicationContext(), MenuModeAActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    /**
+     * startBListener
+     * Starts the appli Mode B (All levels)
+     */
+    View.OnClickListener startBListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }

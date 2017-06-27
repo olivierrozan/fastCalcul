@@ -1,11 +1,13 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,11 +31,15 @@ public class MainActivity extends AppCompatActivity {
     private long timer, timeWhenPaused;
     private CountDownTimer countDownTimer;
     private Animation goodAnim, badAnim;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mode = (String) getIntent().getExtras().get("mode");
+        Log.d("AAA", mode);
 
         TSum = (TextView) findViewById(R.id.sum);
         TRandomOperand = (TextView) findViewById(R.id.randomOperand);
@@ -116,11 +122,13 @@ public class MainActivity extends AppCompatActivity {
 
         int nb = sum - randomOperand;
 
-        List<Integer> listNumbers = new ArrayList<>();
+
+
+        List<String> listNumbers = new ArrayList<>();
 
         for (int i = 1; i < sum - 1; i++) {
             if (i != nb) {
-                listNumbers.add(i);
+                listNumbers.add(String.valueOf(i));
             }
         }
 
@@ -258,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -297,6 +307,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -353,6 +365,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
         });
 
