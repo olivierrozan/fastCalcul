@@ -23,4 +23,18 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="total">Total</string>
+
+    <string name="modeA_button">Mode A</string>
+    <string name="modeA_info">Choose a level</string>
+    <string name="modeB_button">Mode B</string>
+    <string name="modeB_info">Play all levels</string>
+    <string name="level1_button">Level 1</string>
+    <string name="level1_info">10</string>
+    <string name="level2_button">Level 2</string>
+    <string name="level2_info">100</string>
+    <string name="level3_button">Level 3</string>
+    <string name="level3_info">Between 10 and 100</string>
+    <string name="level4_button">Level 4</string>
+    <string name="level4_info">Between 100 and 1000</string>
+    <string name="back">Back</string>
 </resources>
