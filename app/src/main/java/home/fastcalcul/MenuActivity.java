@@ -51,6 +51,9 @@ public class MenuActivity extends AppCompatActivity {
         public void onClick(View view) {
             finish();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", "5");
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     };

@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         numberOfBadAnswers = 0;
         play = true;
         level = 1;
-        sum = 10;
         timer = 30000;
         timeWhenPaused = 0;
         totalDialog = 0;
@@ -77,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
         TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
-        TSum.setText(String.valueOf(sum));
 
         goodAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         badAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
@@ -114,6 +112,54 @@ public class MainActivity extends AppCompatActivity {
     private void newCalcul() {
         Random r = new Random();
 
+        switch(mode) {
+            case "1":
+                sum = 10;
+                break;
+            case "2":
+                sum = 100;
+                break;
+            case "3":
+                sum = r.nextInt(100 - 10) + 10;
+                break;
+            case "4":
+                sum = r.nextInt(1000 - 100) + 100;
+                break;
+            case "5":
+                if (numberOfGoodAnswers == 10) {
+                    level = 2;
+                } else if (numberOfGoodAnswers == 20) {
+                    level = 3;
+                } else if (numberOfGoodAnswers == 30) {
+                    level = 4;
+                }
+
+                switch (level) {
+                    case 1:
+                        sum = 10;
+                        break;
+                    case 2:
+                        sum = 100;
+                        break;
+                    case 3:
+                        sum = r.nextInt(100 - 10) + 10;
+                        break;
+                    case 4:
+                        sum = r.nextInt(1000 - 100) + 100;
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+        randomOperand = r.nextInt(sum - 1) + 1;
+        buttonIndexWithGoodAnswer = r.nextInt(3);
+
+        TSum.setText(String.valueOf(sum));
+        TRandomOperand.setText(String.valueOf(randomOperand));
+
+
         randomOperand = r.nextInt(sum - 1) + 1;
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
@@ -121,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
         TRandomOperand.setText(String.valueOf(randomOperand));
 
         int nb = sum - randomOperand;
-
-
 
         List<String> listNumbers = new ArrayList<>();
 
@@ -203,35 +247,6 @@ public class MainActivity extends AppCompatActivity {
                         finishDialog("Too much wrong answers !!!");
                     }
                 }
-
-                if (numberOfGoodAnswers == 10) {
-                    level = 2;
-                } else if (numberOfGoodAnswers == 20) {
-                    level = 3;
-                } else if (numberOfGoodAnswers == 30) {
-                    level = 4;
-                }
-
-                switch (level) {
-                    case 1:
-                        sum = 10;
-                        break;
-                    case 2:
-                        sum = 100;
-                        break;
-                    case 3:
-                        sum = r.nextInt(100 - 10) + 10;
-                        break;
-                    case 4:
-                        sum = r.nextInt(1000 - 100) + 100;
-                        break;
-                }
-
-                randomOperand = r.nextInt(sum - 1) + 1;
-                buttonIndexWithGoodAnswer = r.nextInt(3);
-
-                TSum.setText(String.valueOf(sum));
-                TRandomOperand.setText(String.valueOf(randomOperand));
 
                 newCalcul();
             }
