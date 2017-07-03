@@ -24,14 +24,14 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
-    private Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer, totalDialog;
+    public Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer, totalDialog;
     private Button[] listButtons;
-    private boolean play;
-    private Integer level;
+    public boolean play;
+    public Integer level;
     private long timer, timeWhenPaused;
     private CountDownTimer countDownTimer;
     private Animation goodAnim, badAnim;
-    private String mode;
+    public String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         beginDialog();
     }
 
-    private void init() {
+    public void init() {
         numberOfGoodAnswers = 0;
         numberOfBadAnswers = 0;
         play = true;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         newCalcul();
     }
 
-    private void initCountDownTimer() {
+    public void initCountDownTimer() {
         countDownTimer = new CountDownTimer(timer, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
      * newCalcul
      * Generates random numbers for buttons, marker and randomOperand
      */
-    private void newCalcul() {
+    public void newCalcul() {
         Random r = new Random();
 
         switch(mode) {
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * fabListener
      */
-    private final View.OnClickListener fabListener = new View.OnClickListener() {
+    public final View.OnClickListener fabListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             dialog();
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * clickListener
      */
-    private final View.OnClickListener clickListener = new View.OnClickListener() {
+    public final View.OnClickListener clickListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View view) {
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                     if (numberOfBadAnswers == 10) {
                         timeWhenPaused = timer;
                         countDownTimer.cancel();
-                        finishDialog("Too much wrong answers !!!");
+                        finishDialog("Too much wrong answers!!!");
                     }
                 }
 
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         dialog();
     }
 
-    private void dialog() {
+    public void dialog() {
 
         timeWhenPaused = timer;
         countDownTimer.cancel();
@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void beginDialog() {
+    public void beginDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.begin_dialog);
         //dialog.setTitle("Start");
@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void finishDialog(String text) {
+    public void finishDialog(String text) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.finish_dialog);
         dialog.setTitle(text);
@@ -351,15 +351,15 @@ public class MainActivity extends AppCompatActivity {
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
 
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.y = -100;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
         if (numberOfBadAnswers == 10) {
             totalDialog = 0;
-
-            Window window = dialog.getWindow();
-            WindowManager.LayoutParams wlp = window.getAttributes();
-
-            wlp.y = -100;
-            wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-            window.setAttributes(wlp);
         } else {
             totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
         }

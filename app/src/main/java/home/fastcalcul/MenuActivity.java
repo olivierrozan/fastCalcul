@@ -3,16 +3,19 @@ package home.fastcalcul;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button startAButton, startBButton, exitButton;
+    private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,88 +23,30 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
 
-        startAButton = (Button) findViewById(R.id.level1);
-        startBButton = (Button) findViewById(R.id.level2);
-        exitButton = (Button) findViewById(R.id.quit);
+        mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
-        startAButton.setOnClickListener(startAListener);
-        startBButton.setOnClickListener(startBListener);
-        exitButton.setOnClickListener(exitListener);
-    }
+        mViewPager = (ViewPager) findViewById(R.id.containter);
 
-    /**
-     * startAListener
-     * Starts the appli Mode A (Choose 1 level)
-     */
-    View.OnClickListener startAListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            finish();
-            Intent intent = new Intent(getApplicationContext(), MenuModeAActivity.class);
-            startActivity(intent);
-        }
-    };
-
-    /**
-     * startBListener
-     * Starts the appli Mode B (All levels)
-     */
-    View.OnClickListener startBListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            finish();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", "5");
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    };
-
-    /**
-     * exitListener
-     * Quits the appli
-     */
-    View.OnClickListener exitListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            dialog();
-        }
-    };
-
-    @Override
-    public void onBackPressed() {
-        dialog();
-        //showLocationDialog();
-    }
-
-    private void dialog() {
-
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.setTitle("Menu Option");
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        // if button is clicked, close the custom dialog
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        // Prevents from scrolling
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                return true;
             }
         });
 
-        // if button is clicked, close the custom dialog
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        //setup the pager
+        setupViewPager(mViewPager);
+    }
 
-        dialog.show();
+    private void setupViewPager(ViewPager viewPager){
+        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Menu1Activity(), "Fragment1");
+        adapter.addFragment(new MenuModeAActivity(), "Fragment2");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setViewPager(int fragmentNumber){
+        mViewPager.setCurrentItem(fragmentNumber);
     }
 
     private void showLocationDialog() {
