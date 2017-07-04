@@ -42,11 +42,7 @@ public class MenuModeAActivity extends Fragment {
     View.OnClickListener level1Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", "1");
-            intent.putExtras(bundle);
-            startActivity(intent);
+            changeActivity("1");
         }
     };
 
@@ -57,12 +53,7 @@ public class MenuModeAActivity extends Fragment {
     View.OnClickListener level2Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //finish();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", "2");
-            intent.putExtras(bundle);
-            startActivity(intent);
+            changeActivity("2");
         }
     };
 
@@ -73,12 +64,7 @@ public class MenuModeAActivity extends Fragment {
     View.OnClickListener level3Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //finish();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", "3");
-            intent.putExtras(bundle);
-            startActivity(intent);
+            changeActivity("3");
         }
     };
 
@@ -89,12 +75,7 @@ public class MenuModeAActivity extends Fragment {
     View.OnClickListener level4Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //finish();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("mode", "4");
-            intent.putExtras(bundle);
-            startActivity(intent);
+            changeActivity("4");
         }
     };
 
@@ -105,8 +86,17 @@ public class MenuModeAActivity extends Fragment {
     View.OnClickListener backListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //finish();
+            //getActivity().finish();
             ((MenuActivity)getActivity()).setViewPager(0);
         }
     };
+
+    private void changeActivity(String mode) {
+        getActivity().finish();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mode", mode);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private Animation goodAnim, badAnim;
     public String mode;
+    public String beginDialogTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mode = (String) getIntent().getExtras().get("mode");
-        Log.d("AAA", mode);
 
         TSum = (TextView) findViewById(R.id.sum);
         TRandomOperand = (TextView) findViewById(R.id.randomOperand);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         timer = 30000;
         timeWhenPaused = 0;
         totalDialog = 0;
-
+        beginDialogTitle = "";
         initCountDownTimer();
 
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
@@ -302,7 +302,27 @@ public class MainActivity extends AppCompatActivity {
     public void beginDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.begin_dialog);
-        //dialog.setTitle("Start");
+
+        switch(mode) {
+            case "1":
+                beginDialogTitle = "10";
+                break;
+            case "2":
+                beginDialogTitle = "100";
+                break;
+            case "3":
+                beginDialogTitle = "Between 10 and 100";
+                break;
+            case "4":
+                beginDialogTitle = "Between 100 and 1000";
+                break;
+            case "5":
+                beginDialogTitle = "All levels";
+            default:
+                break;
+        }
+
+        dialog.setTitle(beginDialogTitle);
         dialog.setCancelable(false);
 
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);

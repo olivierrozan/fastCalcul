@@ -51,7 +51,7 @@ public class Menu1Activity extends Fragment {
     View.OnClickListener startBListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //finish();
+            getActivity().finish();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("mode", "5");
