@@ -2,19 +2,24 @@ package home.fastcalcul;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,11 +38,42 @@ public class MainActivity extends AppCompatActivity {
     private Animation goodAnim, badAnim;
     public String mode;
     public String beginDialogTitle;
+    private EditText TName;
+
+    private static final String PREFS = "PREFS";
+    private static final String PREFS_SCORE = "PREFS_SCORE";
+    private static final String PREFS_NAME = "PREFS_NAME";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+//
+//        //objectif : sauvegarder 1 seule fois le nom et l'age de l'utilisateur
+//
+//        //pour cela, on commence par regarder si on a déjà des éléments sauvegardés
+//        if (sharedPreferences.contains(PREFS_SCORE) && sharedPreferences.contains(PREFS_NAME)) {
+//
+//            int age = sharedPreferences.getInt(PREFS_SCORE, 0);
+//            String name = sharedPreferences.getString(PREFS_NAME, null);
+//
+//            Toast.makeText(this, "Age: " + age + " name: " + name, Toast.LENGTH_SHORT).show();
+//
+//        } else {
+//            //si aucun utilisateur n'est sauvegardé, on ajouter [24,florent]
+//            sharedPreferences
+//                    .edit()
+//                    .putInt(PREFS_SCORE, 24)
+//                    .putString(PREFS_NAME, "florent")
+//                    .apply();
+//
+//            Toast.makeText(this, "Sauvegardé, relancez l'application pour voir le résultat", Toast.LENGTH_SHORT).show();
+//        }
+
+        //sharedPreferences.edit().clear().apply();
 
         mode = (String) getIntent().getExtras().get("mode");
 
@@ -382,11 +418,22 @@ public class MainActivity extends AppCompatActivity {
             totalDialog = 0;
         } else {
             totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
+
+            sharedPreferences
+                    .edit()
+                    .putInt(PREFS_SCORE, totalDialog)
+                    .putString(PREFS_NAME, "noname")
+                    .apply();
+
+            int score = sharedPreferences.getInt(PREFS_SCORE, 0);
+            String name = sharedPreferences.getString(PREFS_NAME, null);
+            Toast.makeText(this, name + "  " + score, Toast.LENGTH_SHORT).show();
+
         }
 
         TotalScore.setText(String.valueOf(totalDialog));
 
-        // if button is clicked, close the custom dialog
+        // Restart
         dialogButtonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -395,13 +442,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // if button is clicked, close the custom dialog
+        // Back to menu
         dialogButtonNO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
+                //finish();
+                dialog.dismiss();
+                highScoreDialog();
+                //Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                //startActivity(intent);
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void highScoreDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.high_scores_dialog);
+
+        dialog.setTitle("Enter your name");
+        dialog.setCancelable(false);
+
+        TName = (EditText) findViewById(R.id.high_score_name);
+
+        TName.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    String name = String.valueOf(TName.getText());
+                    Log.d("AAA", name);
+                    dialog.dismiss();
+                    return true;
+                }
+                return false;
             }
         });
 
