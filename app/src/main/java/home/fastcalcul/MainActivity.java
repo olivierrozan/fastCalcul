@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private Animation goodAnim, badAnim;
     public String mode;
     public String beginDialogTitle;
-    private EditText TName;
 
     private static final String PREFS = "PREFS";
     private static final String PREFS_SCORE = "PREFS_SCORE";
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
 //
 //        //objectif : sauvegarder 1 seule fois le nom et l'age de l'utilisateur
 //
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         numberOfBadAnswers = 0;
         play = true;
         level = 1;
-        timer = 30000;
+        timer = 10000;
         timeWhenPaused = 0;
         totalDialog = 0;
         beginDialogTitle = "";
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 TCountdown.setText("0");
                 play = false;
-                finishDialog("Time passed");
+                timeoutDialog();
             }
         }.start();
     }
@@ -277,10 +276,12 @@ public class MainActivity extends AppCompatActivity {
 
                     TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
 
-                    if (numberOfBadAnswers == 10) {
+                    if (numberOfBadAnswers >= 10) {
+                        numberOfBadAnswers = 10;
+                        play = false;
                         timeWhenPaused = timer;
                         countDownTimer.cancel();
-                        finishDialog("Too much wrong answers!!!");
+                        finishDialog();
                     }
                 }
 
@@ -386,23 +387,15 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void finishDialog(String text) {
+    public void finishDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.finish_dialog);
-        dialog.setTitle(text);
+        dialog.setTitle("Too much wrong answers!!!");
         dialog.setCancelable(false);
 
         // set the custom dialog components - text, image and button
-        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
-        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
-        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
-        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
-        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
 
-        good.setText("Good answers");
-        goodScore.setText(String.valueOf(numberOfGoodAnswers));
-        bad.setText("Errors");
-        badScore.setText(String.valueOf(numberOfBadAnswers));
+        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
 
         Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
@@ -414,23 +407,7 @@ public class MainActivity extends AppCompatActivity {
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
 
-        if (numberOfBadAnswers == 10) {
-            totalDialog = 0;
-        } else {
-            totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
-
-            sharedPreferences
-                    .edit()
-                    .putInt(PREFS_SCORE, totalDialog)
-                    .putString(PREFS_NAME, "noname")
-                    .apply();
-
-            int score = sharedPreferences.getInt(PREFS_SCORE, 0);
-            String name = sharedPreferences.getString(PREFS_NAME, null);
-            Toast.makeText(this, name + "  " + score, Toast.LENGTH_SHORT).show();
-
-        }
-
+        totalDialog = 0;
         TotalScore.setText(String.valueOf(totalDialog));
 
         // Restart
@@ -446,11 +423,74 @@ public class MainActivity extends AppCompatActivity {
         dialogButtonNO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void timeoutDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.timeout_dialog);
+        dialog.setTitle("Out of time!!!");
+        dialog.setCancelable(false);
+
+        // set the custom dialog components - text, image and button
+        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
+        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
+        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
+        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
+        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
+
+        good.setText("Good answers");
+        goodScore.setText(String.valueOf(numberOfGoodAnswers));
+        bad.setText("Errors");
+        badScore.setText(String.valueOf(numberOfBadAnswers));
+
+        Button noHighScore = (Button) dialog.findViewById(R.id.no_highScore);
+        Button highScore = (Button) dialog.findViewById(R.id.highScore);
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.y = -100;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+
+        totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
+
+        sharedPreferences
+                .edit()
+                .putInt(PREFS_SCORE, totalDialog)
+                .putString(PREFS_NAME, "noname")
+                .apply();
+
+        int score = sharedPreferences.getInt(PREFS_SCORE, 0);
+        String name = sharedPreferences.getString(PREFS_NAME, null);
+        Toast.makeText(this, name + "  " + score, Toast.LENGTH_SHORT).show();
+
+        TotalScore.setText(String.valueOf(totalDialog));
+
+        // no highscore, redirects to back/restart dialog
+        noHighScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finishDialog();
+            }
+        });
+
+        // no highscore, redirects to highscore input dialog, then to back/restart dialog
+        highScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 //finish();
                 dialog.dismiss();
                 highScoreDialog();
-                //Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                //startActivity(intent);
+
             }
         });
 
@@ -464,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("Enter your name");
         dialog.setCancelable(false);
 
-        TName = (EditText) findViewById(R.id.high_score_name);
+        final EditText TName = (EditText) dialog.findViewById(R.id.high_score_name);
 
         TName.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -473,6 +513,8 @@ public class MainActivity extends AppCompatActivity {
                     String name = String.valueOf(TName.getText());
                     Log.d("AAA", name);
                     dialog.dismiss();
+
+                    finishDialog();
                     return true;
                 }
                 return false;
