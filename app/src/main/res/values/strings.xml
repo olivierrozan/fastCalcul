@@ -37,4 +37,9 @@
     <string name="level4_button">Level 4</string>
     <string name="level4_info">Between 100 and 1000</string>
     <string name="back">Back</string>
+    <string name="what">What do you want to do?</string>
+
+    <string name="timeout_score">Save Highscore</string>
+    <string name="timeout_no_score">No Highscore</string>
+    <string name="timeout_text">Do you want to save your score?</string>
 </resources>

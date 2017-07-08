@@ -9,20 +9,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignLeft="@+id/linearLayout3"
-        android:layout_alignStart="@+id/linearLayout3">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="34dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_weight="0.07"
             android:text="@string/total"
             android:textColor="@android:color/background_dark"
-            android:textSize="20sp"
-            android:layout_weight="0.07" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/totalDialog"

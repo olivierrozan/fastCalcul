@@ -104,7 +104,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="170dp"
@@ -112,10 +112,11 @@
 
         <TextView
             android:id="@+id/textView10"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Do you want to save your score?"
+            android:gravity="center_horizontal"
+            android:text="@string/timeout_text"
             android:textColor="@android:color/background_dark"
             android:textSize="20sp" />
     </LinearLayout>
@@ -136,7 +137,7 @@
             android:layout_marginEnd="2dp"
             android:layout_weight="0.1"
             android:padding="20dp"
-            android:text="NO HIGHSCORE"
+            android:text="@string/timeout_no_score"
             android:textColor="@android:color/background_light" />
 
         <Button
@@ -147,7 +148,7 @@
             android:layout_marginStart="2dp"
             android:layout_weight="0.1"
             android:padding="20dp"
-            android:text="Save highscore"
+            android:text="@string/timeout_score"
             android:textColor="@android:color/background_light" />
     </LinearLayout>
 

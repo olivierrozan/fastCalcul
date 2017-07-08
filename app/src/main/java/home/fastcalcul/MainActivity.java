@@ -26,10 +26,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import home.fastcalcul.Models.HighScores;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
-    public Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer, totalDialog;
+    public Integer sum, randomOperand, numberOfGoodAnswers, numberOfBadAnswers, buttonIndexWithGoodAnswer/*, totalDialog*/;
     private Button[] listButtons;
     public boolean play;
     public Integer level;
@@ -37,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private Animation goodAnim, badAnim;
     public String mode;
-    public String beginDialogTitle;
+    public String beginDialogTitle/*, score_name*/;
+
+    private HighScores highScore;
 
     private static final String PREFS = "PREFS";
     private static final String PREFS_SCORE = "PREFS_SCORE";
@@ -56,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
 //        //pour cela, on commence par regarder si on a déjà des éléments sauvegardés
 //        if (sharedPreferences.contains(PREFS_SCORE) && sharedPreferences.contains(PREFS_NAME)) {
 //
-//            int age = sharedPreferences.getInt(PREFS_SCORE, 0);
-//            String name = sharedPreferences.getString(PREFS_NAME, null);
-//
-//            Toast.makeText(this, "Age: " + age + " name: " + name, Toast.LENGTH_SHORT).show();
+            int score = sharedPreferences.getInt(PREFS_SCORE, 0);
+            String name = sharedPreferences.getString(PREFS_NAME, null);
+            Toast.makeText(this, name + "    " + score, Toast.LENGTH_SHORT).show();
 //
 //        } else {
 //            //si aucun utilisateur n'est sauvegardé, on ajouter [24,florent]
@@ -103,11 +106,14 @@ public class MainActivity extends AppCompatActivity {
         numberOfBadAnswers = 0;
         play = true;
         level = 1;
-        timer = 10000;
+        timer = 30000;
         timeWhenPaused = 0;
-        totalDialog = 0;
+        //totalDialog = 0;
         beginDialogTitle = "";
+        //score_name = "";
         initCountDownTimer();
+
+        highScore = new HighScores();
 
         TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
         TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
@@ -407,8 +413,9 @@ public class MainActivity extends AppCompatActivity {
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
 
-        totalDialog = 0;
-        TotalScore.setText(String.valueOf(totalDialog));
+        //totalDialog = 0;
+        highScore.setScore(0);
+        TotalScore.setText(String.valueOf(highScore.getScore()));
 
         // Restart
         dialogButtonOK.setOnClickListener(new View.OnClickListener() {
@@ -451,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
         badScore.setText(String.valueOf(numberOfBadAnswers));
 
         Button noHighScore = (Button) dialog.findViewById(R.id.no_highScore);
-        Button highScore = (Button) dialog.findViewById(R.id.highScore);
+        Button saveHighScore = (Button) dialog.findViewById(R.id.highScore);
 
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
@@ -460,17 +467,8 @@ public class MainActivity extends AppCompatActivity {
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
 
-        totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
-
-        sharedPreferences
-                .edit()
-                .putInt(PREFS_SCORE, totalDialog)
-                .putString(PREFS_NAME, "noname")
-                .apply();
-
-        int score = sharedPreferences.getInt(PREFS_SCORE, 0);
-        String name = sharedPreferences.getString(PREFS_NAME, null);
-        Toast.makeText(this, name + "  " + score, Toast.LENGTH_SHORT).show();
+        int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
+        highScore.setScore(totalDialog);
 
         TotalScore.setText(String.valueOf(totalDialog));
 
@@ -479,12 +477,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                finishDialog();
+                saveScoreDialog();
             }
         });
 
-        // no highscore, redirects to highscore input dialog, then to back/restart dialog
-        highScore.setOnClickListener(new View.OnClickListener() {
+        // highscore, redirects to highscore input dialog, then to back/restart dialog
+        saveHighScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //finish();
@@ -510,14 +508,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    String name = String.valueOf(TName.getText());
-                    Log.d("AAA", name);
+                    //score_name = String.valueOf(TName.getText());
+                    highScore.setName(String.valueOf(TName.getText()));
                     dialog.dismiss();
 
-                    finishDialog();
+                    saveScoreDialog();
                     return true;
                 }
                 return false;
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void saveScoreDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.score_saved_dialog);
+
+        dialog.setTitle("Restart");
+        dialog.setCancelable(false);
+
+        Button back = (Button) dialog.findViewById(R.id.score_back);
+        Button restart = (Button) dialog.findViewById(R.id.score_restart);
+
+        sharedPreferences
+                .edit()
+                .putInt(PREFS_SCORE, highScore.getScore())
+                .putString(PREFS_NAME, highScore.getName())
+                .apply();
+
+        // Restart
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                init();
+            }
+        });
+
+        // Back to menu
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
         });
 
