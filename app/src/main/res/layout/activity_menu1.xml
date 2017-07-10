@@ -32,78 +32,98 @@
     app:srcCompat="@mipmap/background" />
 
     <LinearLayout
-    android:id="@+id/linearLayout5"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="30dp"
-    android:layout_marginTop="280dp"
-    android:orientation="horizontal">
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="250dp"
+        android:orientation="horizontal">
 
-    <Button
-    android:id="@+id/modeA"
-    style="@style/Widget.AppCompat.Button.Colored"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:padding="30dp"
-    android:text="@string/modeA_button"
-    android:textColor="@android:color/background_light"
-    android:textStyle="bold" />
+        <Button
+            android:id="@+id/modeA"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="30dp"
+            android:text="@string/modeA_button"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
 
-    <TextView
-    android:id="@+id/textView2"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:gravity="end"
-    android:text="@string/modeA_info"
-    android:textColor="@android:color/background_light"
-    android:textSize="20sp"
-    android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/modeA_info"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-    android:id="@+id/linearLayout4"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="30dp"
-    android:layout_marginTop="360dp"
-    android:orientation="horizontal">
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="320dp"
+        android:orientation="horizontal">
 
-    <Button
-    android:id="@+id/modeB"
-    style="@style/Widget.AppCompat.Button.Colored"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:padding="30dp"
-    android:text="@string/modeB_button"
-    android:textColor="@android:color/background_light"
-    android:textStyle="bold" />
+        <Button
+            android:id="@+id/modeB"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="30dp"
+            android:text="@string/modeB_button"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
 
-    <TextView
-    android:id="@+id/textView3"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:gravity="end"
-    android:text="@string/modeB_info"
-    android:textColor="@android:color/background_light"
-    android:textSize="20sp"
-    android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/modeB_info"
+            android:textColor="@android:color/background_light"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="390dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/highScoreButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="30dp"
+            android:text="@string/highScore"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Button
-    android:id="@+id/quit"
-    style="@style/Widget.AppCompat.Button.Colored"
-    android:layout_width="160dp"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="false"
-    android:layout_marginStart="30dp"
-    android:layout_marginTop="440dp"
-    android:padding="30dp"
-    android:text="@string/quit"
-    android:textColor="@android:color/background_light"
-    android:textStyle="bold" />
+        android:id="@+id/quit"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="460dp"
+        android:padding="30dp"
+        android:text="@string/quit"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -532,10 +532,10 @@ public class MainActivity extends AppCompatActivity {
         Button back = (Button) dialog.findViewById(R.id.score_back);
         Button restart = (Button) dialog.findViewById(R.id.score_restart);
 
+
         sharedPreferences
                 .edit()
-                .putInt(PREFS_SCORE, highScore.getScore())
-                .putString(PREFS_NAME, highScore.getName())
+                .putInt(highScore.getName(), highScore.getScore())
                 .apply();
 
         // Restart

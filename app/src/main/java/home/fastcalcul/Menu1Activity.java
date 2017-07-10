@@ -7,14 +7,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class Menu1Activity extends Fragment {
 
-    private Button startAButton, startBButton, exitButton;
+    private Button startAButton, startBButton, highScoreButton, exitButton;
 
     @Nullable
     @Override
@@ -23,10 +27,12 @@ public class Menu1Activity extends Fragment {
 
         startAButton = (Button) view.findViewById(R.id.modeA);
         startBButton = (Button) view.findViewById(R.id.modeB);
+        highScoreButton = (Button) view.findViewById(R.id.highScoreButton);
         exitButton = (Button) view.findViewById(R.id.quit);
 
         startAButton.setOnClickListener(startAListener);
         startBButton.setOnClickListener(startBListener);
+        highScoreButton.setOnClickListener(highScoreListener);
         exitButton.setOnClickListener(exitListener);
 
         return view;
@@ -56,6 +62,19 @@ public class Menu1Activity extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("mode", "5");
             intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    };
+
+    /**
+     * HighScoreListener
+     * HighScore
+     */
+    View.OnClickListener highScoreListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            getActivity().finish();
+            Intent intent = new Intent(getActivity(), HighScoreListActivity.class);
             startActivity(intent);
         }
     };

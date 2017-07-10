@@ -1,27 +1,34 @@
 package home.fastcalcul;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private ViewPager mViewPager;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        sharedPreferences = getBaseContext().getSharedPreferences("PREFS", MODE_PRIVATE);
+
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("AAA", entry.getKey() + ": " + entry.getValue().toString());
+        }
 
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
