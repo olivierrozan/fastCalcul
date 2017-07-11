@@ -1,87 +1,82 @@
 package home.fastcalcul;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by rozan_000 on 10/07/2017.
  */
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
-    private Context mContext;
-    private onViewClick listener;
+public class ListAdapter extends BaseAdapter {
+    private Context context;
+    private final List<String> mobileValues;
 
-    List<String> listeAndroid = new ArrayList<>();
 
-    public ListAdapter (Context context){
-        this.mContext = context;
-
-        listeAndroid.add("nom 1");
-        listeAndroid.add("nom 2");
-        listeAndroid.add("nom 3");
-        listeAndroid.add("nom 4");
-        listeAndroid.add("nom 5");
-
+    public ListAdapter(Context context, List<String> mobileValues) {
+        this.context = context;
+        this.mobileValues = mobileValues;
     }
 
-    public void setListener(onViewClick listener) {
-        this.listener = listener;
-    }
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-    public interface onViewClick{
-        void onViewClick(Bundle bundle);
-    }
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-    @Override
-    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View gridView;
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.high_score_adapter_list, parent, false);
-        return new ListViewHolder(view);
-    }
+        if (convertView == null) {
 
-    @Override
-    public void onBindViewHolder(ListViewHolder holder, int position) {
-        holder.name.setText(listeAndroid.get(position));
-    }
+            gridView = new View(context);
 
-    @Override
-    public int getItemCount() {
-        return listeAndroid.size();
-    }
+            // get layout from mobile.xml
+            gridView = inflater.inflate(R.layout.high_score_adapter_list, null);
 
-    public class ListViewHolder extends RecyclerView.ViewHolder {
+            String n = mobileValues.get(position).split(",")[0];
+            String s = mobileValues.get(position).split(",")[1];
 
-        TextView name;
-        ImageView image;
-        public ListViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.adapter_name);
-            image =(ImageView) itemView.findViewById(R.id.imageView);
+            TextView name = (TextView) gridView
+                    .findViewById(R.id.adapter_name);
+            name.setText(n);
 
-            name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    image.setVisibility(View.VISIBLE);
-                }
-            });
+            TextView score = (TextView) gridView
+                    .findViewById(R.id.adapter_score);
+            score.setText(s);
 
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("nomSelect", name.getText().toString());
-                    listener.onViewClick(bundle);
-                }
-            });
+        } else {
+            gridView = (View) convertView;
         }
+
+        return gridView;
+    }
+
+    @Override
+    public int getCount() {
+        return mobileValues.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 }
