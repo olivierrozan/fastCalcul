@@ -42,9 +42,8 @@ public class ListAdapter extends BaseAdapter {
 
         if (convertView == null) {
 
-            gridView = new View(context);
+            //gridView = new View(context);
 
-            // get layout from mobile.xml
             gridView = inflater.inflate(R.layout.high_score_adapter_list, null);
 
             String n = mobileValues.get(position).split(",")[0];

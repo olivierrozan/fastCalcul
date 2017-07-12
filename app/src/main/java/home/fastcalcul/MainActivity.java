@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
 //        //pour cela, on commence par regarder si on a déjà des éléments sauvegardés
 //        if (sharedPreferences.contains(PREFS_SCORE) && sharedPreferences.contains(PREFS_NAME)) {
 //
-            int score = sharedPreferences.getInt(PREFS_SCORE, 0);
-            String name = sharedPreferences.getString(PREFS_NAME, null);
-            Toast.makeText(this, name + "    " + score, Toast.LENGTH_SHORT).show();
+//            int score = sharedPreferences.getInt(PREFS_SCORE, 0);
+//            String name = sharedPreferences.getString(PREFS_NAME, null);
+//            Toast.makeText(this, name + "    " + score, Toast.LENGTH_SHORT).show();
 //
 //        } else {
 //            //si aucun utilisateur n'est sauvegardé, on ajouter [24,florent]
