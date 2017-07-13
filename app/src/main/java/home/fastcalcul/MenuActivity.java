@@ -51,61 +51,23 @@ public class MenuActivity extends AppCompatActivity {
         dialog();
     }
 
-//    private void showLocationDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this, R.style.MyDialogTheme);
-//        builder.setTitle(getString(R.string.dialog_title));
-//        //builder.setMessage(getString(R.string.dialog_title));
-//        builder.setCancelable(false);
-//
-//        String positiveText = getString(android.R.string.ok);
-//        builder.setPositiveButton(positiveText,
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // positive button logic
-//                    }
-//                });
-//
-//        String negativeText = getString(android.R.string.cancel);
-//        builder.setNegativeButton(negativeText,
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // negative button logic
-//                    }
-//                });
-//
-//        AlertDialog dialog = builder.create();
-//        // display dialog
-//        dialog.show();
-//    }
-
     private void dialog() {
 
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.setTitle("Menu Option");
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        // if button is clicked, close the custom dialog
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //finish();
-            }
-        });
-
-        // if button is clicked, close the custom dialog
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
+                .setTitle("Are you sure you want to quit?")
+                .setMessage("")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
     }
 }

@@ -1,12 +1,14 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -306,45 +308,29 @@ public class MainActivity extends AppCompatActivity {
         timeWhenPaused = timer;
         countDownTimer.cancel();
 
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.setTitle("Menu Option");
-        dialog.setCancelable(false);
-
-        // set the custom dialog components - text, image and button
-        TextView text = (TextView) dialog.findViewById(R.id.textDialog);
-        text.setText("All progression will be lost. Are you sure you want to exit ?");
-
-        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButton2 = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // if button is clicked, close the custom dialog
-        dialogButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                timer = timeWhenPaused;
-                initCountDownTimer();
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
+                .setTitle("Menu Option")
+                .setMessage("All progression will be lost. Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        timer = timeWhenPaused;
+                        initCountDownTimer();
+                    }
+                })
+                .show();
     }
 
     public void beginDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.begin_dialog);
 
         switch(mode) {
             case "1":
@@ -365,134 +351,89 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        dialog.setTitle(beginDialogTitle);
-        dialog.setCancelable(false);
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        // if button is clicked, close the custom dialog
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                init();
-            }
-        });
-
-        // if button is clicked, close the custom dialog
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
+                .setTitle(beginDialogTitle)
+                .setMessage("Start?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        init();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     public void finishDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.finish_dialog);
-        dialog.setTitle("Too much wrong answers!!!");
-        dialog.setCancelable(false);
 
-        // set the custom dialog components - text, image and button
-
-        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.y = -100;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        window.setAttributes(wlp);
-
-        //totalDialog = 0;
-        highScore.setScore(0);
-        TotalScore.setText(String.valueOf(highScore.getScore()));
-
-        // Restart
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                init();
-            }
-        });
-
-        // Back to menu
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
+                .setTitle("Too much wrong answers!!!")
+                .setMessage("Restart?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        init();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     public void timeoutDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.timeout_dialog);
-        dialog.setTitle("Out of time!!!");
-        dialog.setCancelable(false);
-
-        // set the custom dialog components - text, image and button
-        TextView good = (TextView) dialog.findViewById(R.id.total_good_title);
-        TextView bad = (TextView) dialog.findViewById(R.id.total_bad_title);
-        TextView goodScore = (TextView) dialog.findViewById(R.id.total_good_score);
-        TextView badScore = (TextView) dialog.findViewById(R.id.total_bad_score);
-        TextView TotalScore = (TextView) dialog.findViewById(R.id.totalDialog);
-
-        good.setText("Good answers");
-        goodScore.setText(String.valueOf(numberOfGoodAnswers));
-        bad.setText("Errors");
-        badScore.setText(String.valueOf(numberOfBadAnswers));
-
-        Button noHighScore = (Button) dialog.findViewById(R.id.no_highScore);
-        Button saveHighScore = (Button) dialog.findViewById(R.id.highScore);
-
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.y = -100;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        window.setAttributes(wlp);
 
         int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
         highScore.setScore(totalDialog);
 
-        TotalScore.setText(String.valueOf(totalDialog));
+        String content = "Good answers \t" + numberOfGoodAnswers;
+        content += "\n\nErrors \t" + numberOfBadAnswers;
+        content += "\n\nTotal \t" + highScore.getScore();
 
-        // no highscore, redirects to back/restart dialog
-        noHighScore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                saveScoreDialog();
-            }
-        });
-
-        // highscore, redirects to highscore input dialog, then to back/restart dialog
-        saveHighScore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //finish();
-                dialog.dismiss();
-                highScoreDialog();
-
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(R.layout.timeout_dialog)
+                .setTitle("Out of time!!!")
+                .setMessage(content)
+                .setCancelable(false)
+                .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        init();
+                    }
+                })
+                .setNeutralButton("Save score", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        highScoreDialog();
+                    }
+                })
+                .setNegativeButton("Back to menu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 
     public void highScoreDialog() {
@@ -523,40 +464,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveScoreDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.score_saved_dialog);
-
-        dialog.setTitle("Restart");
-        dialog.setCancelable(false);
-
-        Button back = (Button) dialog.findViewById(R.id.score_back);
-        Button restart = (Button) dialog.findViewById(R.id.score_restart);
-
-
         sharedPreferences
                 .edit()
                 .putInt(highScore.getName(), highScore.getScore())
                 .apply();
 
-        // Restart
-        restart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                init();
-            }
-        });
-
-        // Back to menu
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
+                .setTitle("Restart?")
+                .setMessage("")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        init();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 }

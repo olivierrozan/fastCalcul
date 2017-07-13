@@ -2,10 +2,12 @@ package home.fastcalcul;
 
 import android.app.Dialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -111,31 +113,22 @@ public class Menu1Activity extends Fragment {
 
     private void dialog() {
 
-        // custom dialog
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.custom_dialog);
-        dialog.setTitle("Menu Option");
-
-        Button dialogButtonOK = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        Button dialogButtonNO = (Button) dialog.findViewById(R.id.dialogButtonNO);
-
-        // if button is clicked, close the custom dialog
-        dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-
-        // if button is clicked, close the custom dialog
-        dialogButtonNO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme)
+                .setTitle("Are you sure you want to quit?")
+                .setMessage("")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void highScoreDialog() {
