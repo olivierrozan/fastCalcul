@@ -43,4 +43,6 @@
     <string name="timeout_no_score">No Highscore</string>
     <string name="timeout_text">Do you want to save your score?</string>
     <string name="highScore">HighScores</string>
+
+    <string name="nameInput">Name</string>
 </resources>

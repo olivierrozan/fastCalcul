@@ -1,6 +1,7 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private Animation goodAnim, badAnim;
     public String mode;
     public String beginDialogTitle/*, score_name*/;
+
+    private EditText TName;
 
     private HighScores highScore;
 
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         numberOfBadAnswers = 0;
         play = true;
         level = 1;
-        timer = 30000;
+        timer = 5000;
         timeWhenPaused = 0;
         //totalDialog = 0;
         beginDialogTitle = "";
@@ -406,8 +410,7 @@ public class MainActivity extends AppCompatActivity {
         content += "\n\nErrors \t" + numberOfBadAnswers;
         content += "\n\nTotal \t" + highScore.getScore();
 
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setView(R.layout.timeout_dialog)
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
                 .setTitle("Out of time!!!")
                 .setMessage(content)
                 .setCancelable(false)
@@ -434,6 +437,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+
+        TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+        message.setTextSize(20);
+
+        Button button1 = (Button) alertDialog.findViewById(android.R.id.button1);
+        button1.setTextSize(13);
+
+        Button button2 = (Button) alertDialog.findViewById(android.R.id.button2);
+        button2.setTextSize(13);
+
+        Button button3 = (Button) alertDialog.findViewById(android.R.id.button3);
+        button3.setTextSize(13);
+
     }
 
     public void highScoreDialog() {
@@ -443,17 +459,25 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("Enter your name");
         dialog.setCancelable(false);
 
-        final EditText TName = (EditText) dialog.findViewById(R.id.high_score_name);
+        TName = (EditText) dialog.findViewById(R.id.high_score_name);
+        TName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
 
+        // Submit when pressing Enter key
         TName.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //score_name = String.valueOf(TName.getText());
                     highScore.setName(String.valueOf(TName.getText()));
                     dialog.dismiss();
 
-                    saveScoreDialog();
+                    afterSaveScoreDialog();
                     return true;
                 }
                 return false;
@@ -463,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void saveScoreDialog() {
+    public void afterSaveScoreDialog() {
         sharedPreferences
                 .edit()
                 .putInt(highScore.getName(), highScore.getScore())
