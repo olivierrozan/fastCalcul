@@ -25,12 +25,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ListAdapter extends BaseAdapter {
     private Context context;
-    private final List<String> mobileValues;
+    private final Map<String, Integer> mobileValues;
+    List<String> scoresList = new ArrayList<>();
 
-
-    public ListAdapter(Context context, List<String> mobileValues) {
+    public ListAdapter(Context context, Map<String, Integer> map) {
         this.context = context;
-        this.mobileValues = mobileValues;
+        this.mobileValues = map;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -42,16 +42,20 @@ public class ListAdapter extends BaseAdapter {
 
         if (convertView == null) {
 
-            //gridView = new View(context);
-
             gridView = inflater.inflate(R.layout.high_score_adapter_list, null);
 
-            String n = mobileValues.get(position).split(",")[0];
-            String s = mobileValues.get(position).split(",")[1];
+            for (Map.Entry<String, ?> entry : mobileValues.entrySet()) {
+                scoresList.add(entry.getKey() + "," + entry.getValue().toString());
+            }
+
+            String n = scoresList.get(position).split(",")[0];
+            String s = scoresList.get(position).split(",")[1];
+
+            Integer rank = position + 1;
 
             TextView name = (TextView) gridView
                     .findViewById(R.id.adapter_name);
-            name.setText(n);
+            name.setText(rank + ". " + n);
 
             TextView score = (TextView) gridView
                     .findViewById(R.id.adapter_score);
