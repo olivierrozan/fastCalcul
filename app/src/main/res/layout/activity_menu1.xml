@@ -32,7 +32,7 @@
         app:srcCompat="@mipmap/background" />
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -63,7 +63,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -94,8 +94,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayout3"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="390dp"
@@ -113,17 +113,24 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/quit"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
         android:layout_marginStart="30dp"
         android:layout_marginTop="460dp"
-        android:padding="30dp"
-        android:text="@string/quit"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/quit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="30dp"
+            android:text="@string/quit"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </RelativeLayout>
