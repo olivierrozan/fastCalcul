@@ -25,6 +25,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -140,21 +144,19 @@ public class Menu1Activity extends Fragment {
 
         sharedPreferences = getContext().getSharedPreferences("PREFS", MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
-        if (scoresList.isEmpty()) {
-            for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-                Log.d("AAA", entry.getKey() + ": " + entry.getValue().toString());
-                scoresList.add(entry.getKey() + "," + entry.getValue().toString());
-            }
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            map.put(entry.getKey(), (Integer) entry.getValue());
         }
 
-        Collections.sort(scoresList);
+        Map<String, Integer> sortedMap = sortByValue( map );
 
         hs_back = (Button) dialog.findViewById(R.id.hs_back);
 
         liste = (GridView) dialog.findViewById(R.id.gridView1);
 
-        ListAdapter adapter = new ListAdapter(getContext(), scoresList);
+        ListAdapter adapter = new ListAdapter(getContext(), sortedMap);
         liste.setAdapter(adapter);
 
         // if button is clicked, close the custom dialog
@@ -166,5 +168,33 @@ public class Menu1Activity extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
+
+        // 1. Convert Map to List of Map
+        List<Map.Entry<String, Integer>> list =
+                new LinkedList<Map.Entry<String, Integer>>(unsortMap.entrySet());
+
+        // 2. Sort list with Collections.sort(), provide a custom Comparator
+        //    Try switch the o1 o2 position for a different order
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        int i = 0;
+        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
+        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> entry : list) {
+//            if (i < 5) {
+                sortedMap.put(entry.getKey(), entry.getValue());
+//                i++;
+//            }
+        }
+
+        return sortedMap;
     }
 }

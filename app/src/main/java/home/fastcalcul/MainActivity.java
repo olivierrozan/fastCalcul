@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, 0);
 
         mode = (String) getIntent().getExtras().get("mode");
 
