@@ -36,6 +36,7 @@ public class MenuActivity extends AppCompatActivity {
 
         //setup the pager
         setupViewPager(mViewPager);
+
     }
 
     private void setupViewPager(ViewPager viewPager){

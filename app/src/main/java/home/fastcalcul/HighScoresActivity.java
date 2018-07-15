@@ -26,7 +26,6 @@ public class HighScoresActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String name = String.valueOf(TName.getText());
-                    Log.d("AAA", name);
                     finish();
                     return true;
                 }

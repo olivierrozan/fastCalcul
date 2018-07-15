@@ -32,6 +32,8 @@ import java.util.Random;
 
 import home.fastcalcul.Models.HighScores;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView TSum, TRandomOperand, TGoodAnswers, TBadAnswers, TCountdown;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, 0);
 
         mode = (String) getIntent().getExtras().get("mode");
 
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void newCalcul() {
         Random r = new Random();
+        Boolean enableSameUnits = false;
 
         switch(mode) {
             case "1":
@@ -141,77 +144,78 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "2":
                 sum = 100;
+                enableSameUnits = true;
                 break;
             case "3":
-                sum = r.nextInt(100 - 10) + 10;
+                sum = r.nextInt(100 - 50) + 50;
+                enableSameUnits = true;
                 break;
             case "4":
                 sum = r.nextInt(1000 - 100) + 100;
+                enableSameUnits = true;
                 break;
             case "5":
-                if (numberOfGoodAnswers == 10) {
-                    level = 2;
-                } else if (numberOfGoodAnswers == 20) {
-                    level = 3;
-                } else if (numberOfGoodAnswers == 30) {
-                    level = 4;
+                if (numberOfGoodAnswers < 10) {
+                    sum = 10;
+                } else if (numberOfGoodAnswers >= 10 && numberOfGoodAnswers < 20) {
+                    sum = 100;
+                    enableSameUnits = true;
+                } else if (numberOfGoodAnswers >= 20 && numberOfGoodAnswers < 30) {
+                    sum = r.nextInt(100 - 50) + 50;
+                    enableSameUnits = true;
+                } else if (numberOfGoodAnswers >= 30) {
+                    sum = r.nextInt(1000 - 101) + 101;
+                    enableSameUnits = true;
                 }
 
-                switch (level) {
-                    case 1:
-                        sum = 10;
-                        break;
-                    case 2:
-                        sum = 100;
-                        break;
-                    case 3:
-                        sum = r.nextInt(100 - 10) + 10;
-                        break;
-                    case 4:
-                        sum = r.nextInt(1000 - 100) + 100;
-                        break;
-                }
                 break;
             default:
                 break;
         }
 
         randomOperand = r.nextInt(sum - 1) + 1;
+        // Index of the correct answer in the list
         buttonIndexWithGoodAnswer = r.nextInt(3);
 
         TSum.setText(String.valueOf(sum));
         TRandomOperand.setText(String.valueOf(randomOperand));
 
-
-        randomOperand = r.nextInt(sum - 1) + 1;
-        buttonIndexWithGoodAnswer = r.nextInt(3);
-
-        TSum.setText(String.valueOf(sum));
-        TRandomOperand.setText(String.valueOf(randomOperand));
-
+        // Good answer
         int nb = sum - randomOperand;
 
-        List<String> listNumbers = new ArrayList<>();
+        List<String> listNumbers = new ArrayList<String>();
+        String sGood = String.valueOf(nb);
 
-        for (int i = 1; i < sum - 1; i++) {
-            if (i != nb) {
-                listNumbers.add(String.valueOf(i));
+        // Adding wrong answers to list
+        // total:100, opA:27, good:73
+        // => 0 10 20 30 40 50 60 70 80
+        // => 3 13 23 33 43 53 63 73 83
+        if (enableSameUnits) {
+            for (int i = 10; i < sum - 10; i += 10) {
+                String s = String.valueOf(i);
+                s = s.replace(s.charAt(s.length() - 1), sGood.charAt(sGood.length() - 1));
+
+                if (!s.equals(sGood)) {
+                    listNumbers.add(s);
+                }
+            }
+        } else {
+            for (int i = 1; i < sum; i ++) {
+                String s = String.valueOf(i);
+
+                if (!s.equals(sGood)) {
+                    listNumbers.add(s);
+                }
             }
         }
 
         Collections.shuffle(listNumbers);
+        // The good answer is inserted into the list randomly
+        listNumbers.add(buttonIndexWithGoodAnswer, sGood);
 
-        listButtons[buttonIndexWithGoodAnswer].setText(String.valueOf(nb));
-
-        if (buttonIndexWithGoodAnswer == 0) {
-            listButtons[1].setText(String.valueOf(listNumbers.get(0)));
-            listButtons[2].setText(String.valueOf(listNumbers.get(1)));
-        } else if (buttonIndexWithGoodAnswer == 1) {
-            listButtons[0].setText(String.valueOf(listNumbers.get(0)));
-            listButtons[2].setText(String.valueOf(listNumbers.get(1)));
-        } else if (buttonIndexWithGoodAnswer == 2) {
-            listButtons[0].setText(String.valueOf(listNumbers.get(0)));
-            listButtons[1].setText(String.valueOf(listNumbers.get(1)));
+        // The buttons contain the list elements respectively
+        for (int i = 0; i < 3; i++) {
+            listButtons[i].setText(String.valueOf(listNumbers.get(i)));
         }
     }
 
