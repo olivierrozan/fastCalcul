@@ -40,7 +40,6 @@ public class Menu1Activity extends Fragment {
 
     private GridView liste;
     SharedPreferences sharedPreferences;
-    List<String> scoresList = new ArrayList<>();
     public Button hs_back;
 
     @Nullable
@@ -96,10 +95,7 @@ public class Menu1Activity extends Fragment {
     View.OnClickListener highScoreListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //getActivity().finish();
             highScoreDialog();
-//            Intent intent = new Intent(getActivity(), HighScoreListActivity.class);
-//            startActivity(intent);
         }
     };
 
@@ -189,10 +185,10 @@ public class Menu1Activity extends Fragment {
         // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
         Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
         for (Map.Entry<String, Integer> entry : list) {
-//            if (i < 5) {
+            if (i < 5) {
                 sortedMap.put(entry.getKey(), entry.getValue());
-//                i++;
-//            }
+                i++;
+            }
         }
 
         return sortedMap;
