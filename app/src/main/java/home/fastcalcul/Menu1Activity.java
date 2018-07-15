@@ -181,14 +181,14 @@ public class Menu1Activity extends Fragment {
             }
         });
 
-        int i = 0;
+//        int i = 0;
         // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
         Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
         for (Map.Entry<String, Integer> entry : list) {
-            if (i < 5) {
+//            if (i < 5) {
                 sortedMap.put(entry.getKey(), entry.getValue());
-                i++;
-            }
+//                i++;
+//            }
         }
 
         return sortedMap;
