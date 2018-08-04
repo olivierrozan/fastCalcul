@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private Animation goodAnim, badAnim;
     public String mode;
-    public String beginDialogTitle;
+    public Integer beginDialogTitle;
 
     private EditText TName;
 
@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
         timer = 30000;
         timeWhenPaused = 0;
 
-        beginDialogTitle = "";
+        beginDialogTitle = 0;
 
         initCountDownTimer();
 
         highScore = new HighScores();
 
-        TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
-        TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
+        TGoodAnswers.setText(R.string.goodpoints + " " + String.valueOf(numberOfGoodAnswers));
+        TBadAnswers.setText(R.string.badpoints + " " + String.valueOf(numberOfBadAnswers));
 
         goodAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         badAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                TCountdown.setText("0");
+                TCountdown.setText(R.string.zero);
                 play = false;
                 timeoutDialog();
             }
@@ -247,14 +247,14 @@ public class MainActivity extends AppCompatActivity {
                     TGoodAnswers.setVisibility(View.VISIBLE);
                     TGoodAnswers.startAnimation(goodAnim);
 
-                    TGoodAnswers.setText("Correct " + String.valueOf(numberOfGoodAnswers));
+                    TGoodAnswers.setText(String.valueOf(numberOfGoodAnswers));
                 } else {
                     numberOfBadAnswers++;
 
                     TBadAnswers.setVisibility(View.VISIBLE);
                     TBadAnswers.startAnimation(badAnim);
 
-                    TBadAnswers.setText("Errors " + String.valueOf(numberOfBadAnswers));
+                    TBadAnswers.setText(String.valueOf(numberOfBadAnswers));
 
                     if (numberOfBadAnswers >= 10) {
                         numberOfBadAnswers = 10;
@@ -281,9 +281,9 @@ public class MainActivity extends AppCompatActivity {
         countDownTimer.cancel();
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle("Menu Option")
-                .setMessage("All progression will be lost. Are you sure you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.menuOption)
+                .setMessage(R.string.confirmQuit)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -306,35 +306,35 @@ public class MainActivity extends AppCompatActivity {
 
         switch(mode) {
             case "1":
-                beginDialogTitle = "10";
+                beginDialogTitle = R.string.level1_info;
                 break;
             case "2":
-                beginDialogTitle = "100";
+                beginDialogTitle = R.string.level2_info;
                 break;
             case "3":
-                beginDialogTitle = "Between 10 and 100";
+                beginDialogTitle = R.string.level3_info;
                 break;
             case "4":
-                beginDialogTitle = "Between 100 and 1000";
+                beginDialogTitle = R.string.level4_info;
                 break;
             case "5":
-                beginDialogTitle = "All levels";
+                beginDialogTitle = R.string.allLevels;
             default:
                 break;
         }
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
                 .setTitle(beginDialogTitle)
-                .setMessage("Start?")
+                .setMessage(R.string.confirmStart)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         init();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
@@ -348,17 +348,17 @@ public class MainActivity extends AppCompatActivity {
     public void finishDialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle("Too much wrong answers!!!")
-                .setMessage("Restart?")
+                .setTitle(R.string.tooMuch)
+                .setMessage(R.string.confirmRestart)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         init();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
@@ -374,29 +374,22 @@ public class MainActivity extends AppCompatActivity {
         int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
         highScore.setScore(totalDialog);
 
-        String content = "Good answers \t" + numberOfGoodAnswers;
-        content += "\n\nErrors \t" + numberOfBadAnswers;
-        content += "\n\nTotal \t" + highScore.getScore();
+        String content = String.valueOf(R.string.total_good_title) + " \t" + numberOfGoodAnswers;
+        content += String.valueOf(R.string.total_bad_title) + " \t" + numberOfBadAnswers;
+        content += String.valueOf(R.string.total) + " \t" + highScore.getScore();
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle("Out of time!!!")
+                .setTitle(R.string.outOfTime)
                 .setMessage(content)
                 .setCancelable(false)
-                .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.finish_dialog_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         init();
                     }
                 })
-                .setNeutralButton("Save score", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        highScoreDialog();
-                    }
-                })
-                .setNegativeButton("Back to menu", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.finish_dialog_no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
@@ -424,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.high_scores_dialog);
 
-        dialog.setTitle("Enter your name");
+        dialog.setTitle(R.string.name);
         dialog.setCancelable(false);
 
         TName = (EditText) dialog.findViewById(R.id.high_score_name);
@@ -462,17 +455,17 @@ public class MainActivity extends AppCompatActivity {
                 .apply();
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle("Restart?")
+                .setTitle(R.string.confirmRestart)
                 .setMessage("")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                         init();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();

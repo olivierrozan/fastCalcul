@@ -1,6 +1,6 @@
+
 <resources>
     <string name="app_name">Lightning Mental Arithmetic</string>
-    <string name="marker">Marker</string>
     <string name="goodpoints">Correct</string>
     <string name="badpoints">Errors</string>
     <string name="mark">"?"</string>
@@ -20,10 +20,7 @@
     <string name="total_good_title">Good answers</string>
     <string name="total_bad_title">Errors</string>
     <string name="title_activity_tuto">Tutorial</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="total">Total</string>
-
     <string name="modeA_button">Mode A</string>
     <string name="modeA_info">Choose a level</string>
     <string name="modeB_button">Mode B</string>
@@ -38,11 +35,20 @@
     <string name="level4_info">Between 100 and 1000</string>
     <string name="back">Back</string>
     <string name="what">What do you want to do?</string>
-
     <string name="timeout_score">Save Highscore</string>
     <string name="timeout_no_score">No Highscore</string>
     <string name="timeout_text">Do you want to save your score?</string>
     <string name="highScore">HighScores</string>
-
     <string name="nameInput">Name</string>
+    <string name="zero">0</string>
+    <string name="menuOption">Menu option</string>
+    <string name="confirmQuit">All progression will be lost. Are you sure you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="allLevels">All levels</string>
+    <string name="confirmStart">Start?</string>
+    <string name="confirmRestart">Restart?</string>
+    <string name="tooMuch">Too much wrong answers!!!</string>
+    <string name="outOfTime">Out of time!!!</string>
+    <string name="name">Enter your name</string>
 </resources>

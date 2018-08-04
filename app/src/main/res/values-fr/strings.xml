@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lightning Mental Arithmetic</string>
+    <string name="goodpoints">Correct</string>
+    <string name="badpoints">Erreurs</string>
+    <string name="mark">\?</string>
+    <string name="plus">+</string>
+    <string name="equal">=</string>
+    <string name="start">Commencer</string>
+    <string name="tuto">Tutoriel</string>
+    <string name="quit">Quitter</string>
+    <string name="dialog_title">Etes-vous sûr de vouloir quitter?</string>
+    <string name="dialog_yes">Oui, quitter</string>
+    <string name="dialog_no">Non, continuer</string>
+    <string name="begin_dialog_title">Continuer?</string>
+    <string name="begin_dialog_yes">Oui, c\'est parti</string>
+    <string name="begin_dialog_no">Non, retourner au menu</string>
+    <string name="finish_dialog_yes">Recommencer</string>
+    <string name="finish_dialog_no">Retour au menu</string>
+    <string name="total_good_title">Bonnes réponses</string>
+    <string name="total_bad_title">Erreurs</string>
+    <string name="title_activity_tuto">Tutoriel</string>
+    <string name="total">Total</string>
+    <string name="modeA_button">Mode A</string>
+    <string name="modeA_info">Choisissez un niveau</string>
+    <string name="modeB_button">Mode B</string>
+    <string name="modeB_info">Jouer tous les niveaux</string>
+    <string name="level1_button">Niveau 1</string>
+    <string name="level1_info">10</string>
+    <string name="level2_button">Niveau 2</string>
+    <string name="level2_info">100</string>
+    <string name="level3_button">Niveau 3</string>
+    <string name="level3_info">Entre 10 et 100</string>
+    <string name="level4_button">Niveau 4</string>
+    <string name="level4_info">Entre 100 et 1000</string>
+    <string name="back">Retour</string>
+    <string name="what">Que voulez-vous faire?</string>
+    <string name="highScore">Top classement</string>
+    <string name="nameInput">Nom</string>
+    <string name="zero">0</string>
+    <string name="menuOption">Option du menu</string>
+    <string name="confirmQuit">Toute votre progression sera perdue. Etes-vous sûr de vouloir quitter?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="allLevels">Tous les niveaux</string>
+    <string name="confirmStart">Commencer?</string>
+    <string name="confirmRestart">Recommencer?</string>
+    <string name="tooMuch">Trop de mauvaises réponses!!!</string>
+    <string name="outOfTime">Temps écoulé!!!</string>
+    <string name="name">Tapez votre nom</string>
+</resources>
