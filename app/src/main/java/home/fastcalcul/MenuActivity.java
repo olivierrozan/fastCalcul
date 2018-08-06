@@ -58,15 +58,15 @@ public class MenuActivity extends AppCompatActivity {
     private void dialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle("Are you sure you want to quit?")
+                .setTitle(R.string.confirmQuit)
                 .setMessage("")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

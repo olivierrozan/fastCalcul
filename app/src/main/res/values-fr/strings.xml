@@ -22,7 +22,7 @@
     <string name="title_activity_tuto">Tutoriel</string>
     <string name="total">Total</string>
     <string name="modeA_button">Mode A</string>
-    <string name="modeA_info">Choisissez un niveau</string>
+    <string name="modeA_info">Jouer un niveau</string>
     <string name="modeB_button">Mode B</string>
     <string name="modeB_info">Jouer tous les niveaux</string>
     <string name="level1_button">Niveau 1</string>

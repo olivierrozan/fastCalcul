@@ -114,15 +114,15 @@ public class Menu1Activity extends Fragment {
     private void dialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme)
-                .setTitle("Are you sure you want to quit?")
+                .setTitle(R.string.confirmQuit)
                 .setMessage("")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         getActivity().finish();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

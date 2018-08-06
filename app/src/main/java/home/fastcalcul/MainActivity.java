@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
         highScore = new HighScores();
 
-        TGoodAnswers.setText(R.string.goodpoints + " " + String.valueOf(numberOfGoodAnswers));
-        TBadAnswers.setText(R.string.badpoints + " " + String.valueOf(numberOfBadAnswers));
+        TGoodAnswers.setText(String.valueOf(numberOfGoodAnswers));
+        TBadAnswers.setText(String.valueOf(numberOfBadAnswers));
 
         goodAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         badAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
