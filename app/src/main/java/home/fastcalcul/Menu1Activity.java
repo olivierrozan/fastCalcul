@@ -1,29 +1,19 @@
 package home.fastcalcul;
 
 import android.app.Dialog;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,7 +26,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Menu1Activity extends Fragment {
 
-    private Button startAButton, startBButton, highScoreButton, exitButton;
+    private Button startAButton, startBButton, highScoreButton;
 
     private GridView liste;
     SharedPreferences sharedPreferences;
@@ -50,12 +40,10 @@ public class Menu1Activity extends Fragment {
         startAButton = (Button) view.findViewById(R.id.modeA);
         startBButton = (Button) view.findViewById(R.id.modeB);
         highScoreButton = (Button) view.findViewById(R.id.highScoreButton);
-        exitButton = (Button) view.findViewById(R.id.quit);
 
         startAButton.setOnClickListener(startAListener);
         startBButton.setOnClickListener(startBListener);
         highScoreButton.setOnClickListener(highScoreListener);
-        exitButton.setOnClickListener(exitListener);
 
         return view;
     }
@@ -96,18 +84,6 @@ public class Menu1Activity extends Fragment {
         @Override
         public void onClick(View view) {
             highScoreDialog();
-        }
-    };
-
-    /**
-     * exitListener
-     * Quits the appli
-     */
-    View.OnClickListener exitListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            dialog();
-            //getActivity().finish();
         }
     };
 

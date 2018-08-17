@@ -374,9 +374,9 @@ public class MainActivity extends AppCompatActivity {
         int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
         highScore.setScore(totalDialog);
 
-        String content = String.valueOf(R.string.total_good_title) + " \t" + numberOfGoodAnswers;
-        content += String.valueOf(R.string.total_bad_title) + " \t" + numberOfBadAnswers;
-        content += String.valueOf(R.string.total) + " \t" + highScore.getScore();
+        String content = getApplicationContext().getString(R.string.total_good_title) + "            " + String.valueOf(numberOfGoodAnswers);
+        content += "\n\n" + getApplicationContext().getString(R.string.total_bad_title) + "                    " + String.valueOf(numberOfBadAnswers);
+        content += "\n\n" + getApplicationContext().getString(R.string.total) + "                      " + String.valueOf(highScore.getScore());
 
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
                 .setTitle(R.string.outOfTime)
