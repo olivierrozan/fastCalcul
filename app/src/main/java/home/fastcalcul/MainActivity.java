@@ -125,7 +125,16 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 TCountdown.setText(R.string.zero);
                 play = false;
-                timeoutDialog();
+
+                int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
+                highScore.setScore(totalDialog);
+
+                if (totalDialog > 0) {
+                    highScoreDialog();
+                } else {
+                    timeoutDialog();
+                }
+
             }
         }.start();
     }
@@ -371,9 +380,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void timeoutDialog() {
 
-        int totalDialog = numberOfGoodAnswers <= numberOfBadAnswers ? 0 : numberOfGoodAnswers - numberOfBadAnswers;
-        highScore.setScore(totalDialog);
-
         String content = getApplicationContext().getString(R.string.total_good_title) + "            " + String.valueOf(numberOfGoodAnswers);
         content += "\n\n" + getApplicationContext().getString(R.string.total_bad_title) + "                    " + String.valueOf(numberOfBadAnswers);
         content += "\n\n" + getApplicationContext().getString(R.string.total) + "                      " + String.valueOf(highScore.getScore());
@@ -437,8 +443,8 @@ public class MainActivity extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     highScore.setName(String.valueOf(TName.getText()));
                     dialog.dismiss();
-
                     afterSaveScoreDialog();
+                    timeoutDialog();
                     return true;
                 }
                 return false;
@@ -453,26 +459,5 @@ public class MainActivity extends AppCompatActivity {
                 .edit()
                 .putInt(highScore.getName(), highScore.getScore())
                 .apply();
-
-        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
-                .setTitle(R.string.confirmRestart)
-                .setMessage("")
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        init();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .show();
     }
 }

@@ -55,7 +55,7 @@ public class ListAdapter extends BaseAdapter {
 
             TextView name = (TextView) gridView
                     .findViewById(R.id.adapter_name);
-            name.setText(rank + ". " + n);
+            name.setText(n);
 
             TextView score = (TextView) gridView
                     .findViewById(R.id.adapter_score);
